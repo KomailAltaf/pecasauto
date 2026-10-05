@@ -1,0 +1,29 @@
+{
+  "data_status": "MOCK ONLY",
+  "purpose": "SEARCH MECHANICS ONLY - NOT FITMENT EVIDENCE",
+  "products": [
+    {
+      "id": "mock-product-1",
+      "data_status": "MOCK ONLY",
+      "brand": "DemoBrand",
+      "name": "Brake disc test record",
+      "manufacturer_reference": "TEST-BD-001",
+      "oe_references": ["1K0615301AA"],
+      "ean": "0000000000001",
+      "supplier_reference": "SUP-DEMO-1",
+      "internal_sku": "DEMO-001"
+    },
+    {
+      "id": "mock-product-2",
+      "data_status": "MOCK ONLY",
+      "brand": "DemoBrand",
+      "name": "Brake master cylinder test record",
+      "manufacturer_reference": "TEST-MC-001",
+      "oe_references": ["1K1614724E"],
+      "ean": "0000000000002",
+      "supplier_reference": "SUP-DEMO-2",
+      "internal_sku": "DEMO-002"
+    }
+  ]
+}
+

@@ -1,0 +1,9 @@
+[project]
+name = "portugal-auto-validation-lab"
+version = "0.1.0"
+description = "Provider-independent automotive identity and fitment validation lab"
+requires-python = ">=3.11"
+
+[tool.unittest]
+test-directory = "tests"
+

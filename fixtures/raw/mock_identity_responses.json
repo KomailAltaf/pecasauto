@@ -1,0 +1,15 @@
+{
+  "data_status": "MOCK ONLY",
+  "contains_personal_data": false,
+  "purpose": "Exercise parsing and report generation only",
+  "responses": [
+    {
+      "provider": "mock_identity",
+      "route": "vin",
+      "input_fixture": "client_001",
+      "status": "PARTIAL",
+      "vehicle": {"make": "Peugeot", "model": "5008", "generation": "II"}
+    }
+  ]
+}
+

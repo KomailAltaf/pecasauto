@@ -1,0 +1,82 @@
+ROUND 2 READY FOR CLAUDE
+========================
+
+Date: 2026-10-05
+Scope: provider-independent validation foundation; no final provider recommendation.
+
+Review first
+------------
+
+collaboration/REVIEW_RESPONSE.md
+collaboration/CODEX_STATUS.md
+docs/architecture.md
+docs/data_rights_register.md
+reports/executive_findings.md
+reports/provider_comparison.html
+reports/provider_comparison.csv
+
+What changed
+------------
+
+- Added evidence-derived BASIC / MODEL / ENGINE / EXACT_VARIANT precision.
+- Added canonical vehicle fields, per-field provenance, provider IDs and raw-payload reference.
+- Added non-blocking, region-aware VIN checksum handling for European VINs.
+- Added Portuguese registration normalization for current and historical formats.
+- Added one-more-field discriminator for partial identity.
+- Added separate identity, catalogue, fitment, inventory and pricing interfaces.
+- Added ordered provider orchestration, min precision, max cost, error isolation, circuit threshold and provider-scoped cache.
+- Added MATCH / NO_MATCH / UNKNOWN / CONFLICT source verdicts and safe customer states.
+- Added truth-class fixture schema and enforced synthetic exclusion from accuracy metrics.
+- Added mock catalogue and responses clearly marked MOCK ONLY / SEARCH MECHANICS ONLY.
+- Added data-rights register and credential/contract questions.
+- Added benchmark, cost scenarios and regenerated requested reports.
+- Added tests for timeout, authorization, rate limit, schema drift, cache, precision, conflicts and mock leakage.
+
+Commands
+--------
+
+Run full suite:
+
+    python3 -m unittest discover -s tests -v
+
+Run requested categories:
+
+    python3 -m unittest tests.test_models -v
+    python3 -m unittest tests.test_providers -v
+    python3 -m unittest tests.test_normalization -v
+    python3 -m unittest tests.test_fitment -v
+    python3 -m unittest tests.test_benchmark -v
+    python3 -m unittest tests.test_cost_analysis -v
+
+Regenerate benchmark, cost analysis and reports:
+
+    python3 -m benchmarks.run_benchmark
+
+Inspect git state:
+
+    git log --oneline --decorate -5
+    git status --short
+
+Expected result
+---------------
+
+29 tests pass.
+
+The generated report must continue to say:
+
+- VERIFIED: repository/test mechanics only.
+- PARTIALLY VERIFIED: core safety rules and local structural normalization.
+- NOT VERIFIED: real provider accuracy and real fitment.
+- WAITING FOR CREDENTIALS: external services and programmatic rights.
+- MOCK ONLY: mock provider/catalogue/raw responses.
+
+Known blockers
+--------------
+
+- No independently verified vehicle fixture exists yet.
+- No live provider credential is stored or used.
+- partslink24 manual access is confirmed, but backend integration/data rights are not.
+- Provider prices are absent; cost fields remain unknown rather than estimated.
+- Stage-1 benchmark requires 10-20 real client vehicles and at least one VIN and one plate route.
+
+Do not infer a final provider recommendation from this round.

@@ -1,0 +1,9 @@
+provider,route,status,verified_n,mock_n,correct_vehicle,correct_engine,correct_variant,ambiguous,wrong,no_result,p50_latency_ms,p95_latency_ms,monthly_cost_10k,commercial_rights,note
+Local VIN structural parser,VIN,PARTIALLY VERIFIED,1,0,,,,,,,,,,UNKNOWN,Structure and non-blocking EU checksum only; no vehicle identity.
+Mock identity provider,VIN / matrícula,MOCK ONLY,0,1,,,,,,,,,,UNKNOWN,Plumbing and report mechanics only.
+Existing client vehicle software,matrícula / VIN,NOT VERIFIED,0,0,,,,,,,,,,UNKNOWN,Product and export/API capabilities not documented.
+TelePeças,matrícula / VIN,WAITING FOR CREDENTIALS,0,0,,,,,,,,,,UNKNOWN,"Documentation, credentials, rights and price sheet required."
+Matricula.co.pt,matrícula,WAITING FOR CREDENTIALS,0,0,,,,,,,,,,UNKNOWN,"Test credentials, terms and response schema required."
+Commercial VIN provider,VIN,NOT VERIFIED,0,0,,,,,,,,,,UNKNOWN,Candidate not selected.
+TecAlliance / TecDoc,VIN / VRM / catalogue / fitment,WAITING FOR CREDENTIALS,0,0,,,,,,,,,,UNKNOWN,Direct consultation and licence required.
+partslink24,VIN / OE validation,WAITING FOR CREDENTIALS,0,0,,,,,,,,,,UNKNOWN,Manual client access confirmed; programmatic rights unknown.
