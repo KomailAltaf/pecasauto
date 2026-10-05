@@ -157,3 +157,87 @@ Codex response: `collaboration/REVIEW_RESPONSE.md`.
 - **Owner:** Komail + Fahad
 - **Evidence needed:** Vehicle list.
 - **Done when:** Stage 2 executed.
+
+---
+
+## Claude round 3 additions (2026-10-05) — retests / requests for Codex
+
+### P0-R1 PT-only scope fields
+- **Action:** add `country` and `portuguese_market_verified` to `fixtures/vehicle_ground_truth.csv`; only `country=PT AND portuguese_market_verified=true` counts toward production score; synthetic/foreign rows debug-only. Mark client_001 `portuguese_market_verified=false` until the registration certificate / partslink24 check exists.
+- **Why:** client_001 `model_year=2023` is only vPIC's pos-10 guess; first-registration date unknown.
+- **Owner:** Codex. **Evidence:** test failing if non-PT or unverified rows reach metrics. **Done when:** passes.
+
+### P0-R2 Real adapters from real responses only
+- **Action:** once Komail saves sandbox/test JSON from Openapi `PT-car`, Matricula.co.pt, Vincario into `reports/claude_raw_evidence/plate/` and `/vin/`, build adapters against them and re-score. Do not write adapters from vendor marketing pages.
+- **Why:** response schemas unpublished (Openapi, AutoNow) or thin (Matricula.co.pt).
+- **Done when:** each provider has a precision class on client_001 from a real raw file.
+
+### P1-R3 Bridge model
+- **Action:** implement `match_method` ∈ PROVIDER_ID | VIN | ENGINE_CODE | TEXT_MATCH | USER_CONFIRMED + `candidates_count` per `docs/vehicle-to-catalogue-bridge.md`; TEXT_MATCH can never produce COMPATIBLE.
+- **Done when:** tests enforce it.
+
+### P1-R4 Customer garage store
+- **Action:** store customer-confirmed vehicles (our data) separately from provider cache; provider cache purgeable per source.
+
+### P1-R5 vPIC adapter
+- **Action:** error code 8 / empty Model → BASIC; ModelYear from VIN pos 10 must not populate `model_year` for EU VINs. Retest on `reports/raw_evidence/vpic_*.json` (identical to my copy).
+
+### Retest note
+Codex raw evidence for vPIC matches mine byte-for-byte (detailed file). 29 tests pass as of this review. No Codex provider evidence beyond vPIC exists yet.
+
+---
+
+## Claude round 4 additions (2026-10-05)
+
+### P0-R6 Fix vPIC adapter leaps
+- **Action:** don't derive `model_year` from EU VIN pos-10; don't set `country_of_registration="PT"` from a VIN.
+- **Owner:** Codex. **Evidence:** test using `raw_evidence/vpic_public_VF3MCYHZUPS034433.json` expects `model_year=None`, country None. **Done when:** passes.
+
+### P0-R7 Update CODEX_STATUS.md to current reality (37 tests, real-campaign results, access blockers).
+
+### P0-R8 Human access (Komail/Fahad): see `reports/HUMAN_ACTIONS_REQUIRED.md`. Done when raw JSON for CG-17-GC from ≥2 PT plate providers is in `reports/raw_evidence/`.
+
+### P1-R9 Provider schemas: build Autoways, TelePeças, Matricula.co.pt, Openapi adapters **only from real responses**; record whether ktype/engine code/kW were returned and score precision.
+
+### P1-R10 K-Type validation harness: when a provider returns a K-Type, require confirmation by a second source (licensed catalogue/partslink24 manual) before use; log disagreement as CONFLICT.
+
+### P1-R11 Quote tracker: add `docs/quotes.md` (TecAlliance direct, PT partner, Fahad/Luis quote, TelePeças integrator) with date, scope, price, terms.
+
+---
+
+## Claude round 5 additions (2026-10-05): Autofrance / K-Type
+
+### P0-R12 Model-conflict state
+- **Action:** add `MODEL_CONFLICT`/`AMBIGUOUS_PLATFORM_SIBLINGS` handling: when provider model ≠ user-stated model, or VDS prefix is known to be shared by sibling models (3008/5008), result is CONFIRM, never RESOLVED/COMPATIBLE. Client_001 must be recorded as `MODEL_CONFLICT`.
+- **Owner:** Codex. **Evidence:** test with raw Autofrance payload + stated model 5008 → CONFIRM. **Done when:** passes.
+
+### P0-R13 Autofrance provider policy
+- **Action:** register `autofrance_public` in `docs/data_rights_register.md` as `RESEARCH_ONLY / NOT_FOR_PRODUCTION` (retailer storefront backend, no API licence); exclude from production cascades in `app/cascades.py`; no `country_of_registration="PT"` from a VIN.
+- **Owner:** Codex.
+
+### P1-R14 K-Type validation
+- **Action:** `reports/ktype_crosscheck.csv` is the register; add rows whenever any provider returns a K-Type. A K-Type needs a second *independent* source before use.
+
+### P1-R15 Discriminator data
+- **Action:** add `platform_siblings` knowledge (VDS→candidate models) as data we learn from licensed sources, not hardcoded guesses.
+
+### HUMAN: Fahad runs VF3MCYHZUPS034433 in partslink24 (screenshot: model, engine code, build date, OE ref list for e.g. oil filter and a rear brake part) AND sends the original client screenshot / registration certificate. Resolves 3008 vs 5008.
+
+### P0-R16 (Claude round 6) Decide client_001 model
+- **Action:** run `CG-17-GC` through ≥1 PT plate provider (HUMAN: see HUMAN_ACTIONS_REQUIRED) AND Fahad's partslink24 VIN lookup. If plate says 5008 and VIN says 3008 → plate/VIN mismatch in the screenshot; get the original screenshot.
+- **Owner:** Komail/Fahad (access), Codex (scoring). **Done when:** one licensed/OEM source states the model.
+
+### P1-R17 Decoder-existence guard
+- **Action:** any VIN decoder result that is identical for synthetic/non-existent serials must be flagged `NO_EXISTENCE_CHECK` and capped at CONFIRM. Add a regression test using the stored synthetic_debug payloads.
+
+### P0-R18 Sync reports with Round 6 (Codex)
+- **Action:** update `client_ground_truth_research.md`, `real_validation_matrix.csv` (Autofrance row: add `independent_ktype_identity=CONFIRMED`, `model_status=LIKELY_3008_DISPUTED`), FINAL §K-Type, `READY_FOR_CLAUDE`; fix the 2 failing tests; reword the stop boundary (see CLAUDE_REVIEW Round 6 Q4).
+- **Done when:** unittest green and no report says the K-Type is unverified or that the conflict is unknown.
+
+### P0-R19 Tips4y (Claude round 6)
+- **Action:** add Tips4y to `docs/provider_landscape.md`, rights register and matrix as DOCUMENTED (plate→TecDoc Vehicle ID via API, TecDoc WebService). Codex's earlier note about "Tips4y matrícula → VIN/KType" is consistent; I corrected my TLS remark (genuine domain tips4y.pt; chain incomplete).
+- **Done when:** listed with status WAITING FOR ACCESS and contact action.
+
+### P0-R20 Autoways adapter schema (Claude round 6)
+- **Action:** the vendor's public OpenAPI spec (stored in `reports/claude_raw_evidence/autoways/`) defines the response fields. Write the adapter/mapping against the **spec's example shape** with unit tests on that example only (label `SPEC_EXAMPLE`, not accuracy evidence); keep status NOT_TESTED until a real token response exists. Map: `AWN_k_type`→`provider_vehicle_ids["autoways_ktype"]`, `AWN_code_moteur`→engine_code, `AWN_puissance_KW`→power_kw, `AWN_date_mise_en_circulation`→first_registration (PT plate route only), `AWN_VIN`→vin (from plate route = provenance PLATE_PROVIDER).
+- **Done when:** adapter + tests pass; no network call without a token.

@@ -19,6 +19,7 @@ class LookupStatus(str, Enum):
     RESOLVED = "RESOLVED"
     CONFLICT = "CONFLICT"
     ERROR = "ERROR"
+    FALSE_CONFIDENT_RESULT = "FALSE_CONFIDENT_RESULT"
 
 
 class EvidenceStatus(str, Enum):
@@ -107,4 +108,3 @@ def as_dict(value: Any) -> Any:
     if isinstance(value, list):
         return [as_dict(item) for item in value]
     return value
-

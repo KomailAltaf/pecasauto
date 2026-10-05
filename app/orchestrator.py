@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from app.models import IdentityResult, LookupStatus, PrecisionLevel
+from app.provider_policy import ProviderPolicy
 from providers.base import VehicleIdentityProvider
 
 
@@ -19,6 +20,7 @@ class ProviderStep:
     provider: VehicleIdentityProvider
     min_precision: PrecisionLevel
     max_cost: float | None = None
+    policy: ProviderPolicy | None = None
 
 
 class ProviderScopedCache:
@@ -46,14 +48,16 @@ class IdentityOrchestrator:
             if self.failures.get(provider.name, 0) >= self.failure_threshold:
                 attempts.append(IdentityResult(provider.name, LookupStatus.ERROR, error_code="CIRCUIT_OPEN"))
                 continue
-            cached = self.cache.get(provider, route, value)
+            may_cache = bool(step.policy and step.policy.terms_verified and step.policy.cache_allowed)
+            cached = self.cache.get(provider, route, value) if may_cache else None
             if cached:
                 result = cached
             else:
                 try:
                     method = provider.identify_by_vin if route == "vin" else provider.identify_by_registration
                     result = method(value)
-                    self.cache.put(provider, route, value, result)
+                    if may_cache:
+                        self.cache.put(provider, route, value, result)
                 except TimeoutError:
                     self.failures[provider.name] = self.failures.get(provider.name, 0) + 1
                     result = IdentityResult(provider.name, LookupStatus.ERROR, error_code="TIMEOUT")

@@ -1,0 +1,36 @@
+PORTUGAL-ONLY REAL CAMPAIGN READY FOR INDEPENDENT REVIEW
+
+Review raw evidence first:
+  reports/raw_evidence/
+
+Key outputs:
+  reports/real_validation_matrix.csv
+  reports/client_vehicle_comparison.html
+  reports/client_ground_truth_research.md
+  reports/cost_model.md
+  reports/FINAL_PRE_TECDOC_DATA_STRATEGY.md
+  docs/vehicle-to-catalogue-bridge.md
+  docs/provider_landscape.md
+  docs/portugal-official-data-route.md
+
+Commands:
+  cd ~/Downloads/portugal-auto-validation-lab
+  python3 -m unittest discover -s tests -v
+  python3 -m benchmarks.run_real_campaign
+  python3 -m benchmarks.run_benchmark
+  git status --short
+
+What changed:
+  - PT-only production scoring gate; client case remains unverified ground truth.
+  - Actual public + self-hosted vPIC evidence.
+  - Actual Autofrance VIN→ENGINE/KType result, with 3008-vs-5008 conflict preserved.
+  - KType 130708 identity cross-check incorporated; VIN→KType remains PARTIAL.
+  - Autofrance removed from the production cascade, marked research-only/no-existence-check, and no longer infers PT registration from VIN.
+  - Policy-gated caching, manual fallback, multi-source review, explicit bridge methods.
+  - Portugal provider landscape, official route, cost model and contact templates.
+
+Review questions:
+  1. Is Autofrance correctly capped at ENGINE and NEEDS_SECOND_SOURCE?
+  2. Does any report accidentally treat client expectation or KType result as independent truth?
+  3. Are commercial/cache/storage claims sufficiently conservative?
+  4. Is the revised stop boundary honest: automated no-account routes exercised, remaining decisive routes need accounts/contracts/client access or human screenshots?

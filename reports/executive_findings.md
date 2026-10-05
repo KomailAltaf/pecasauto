@@ -1,10 +1,10 @@
-# Executive Findings - Round 2
+# Executive Findings — Portugal-only evidence round
 
 Generated: 2026-10-05
 
 ## Scope
 
-The provider-independent safety foundation is implemented and tested. No live VIN, Portuguese registration, TecDoc, partslink24, supplier, or Primavera API was called. No final provider recommendation is made.
+The provider-independent safety foundation is implemented and tested. Public and self-hosted vPIC plus a research-only European storefront endpoint were called with the Portuguese client VIN. Commercial plate/VIN, TecDoc, partslink24, supplier and Primavera APIs were not available. No provider is production-verified.
 
 ## VERIFIED
 
@@ -20,10 +20,13 @@ The provider-independent safety foundation is implemented and tested. No live VI
 - Portuguese plate normalization covers the four specified historical/current patterns.
 - Provider swapping, error isolation, circuit threshold and provider-scoped cache work in local tests.
 - The local VIN parser validates structure only. It does not identify make/model/engine/variant.
+- Public vPIC returned Peugeot only for the client VIN; self-hosted vPIC reproduced the same BASIC-only result.
+- The research-only Autofrance endpoint returned ENGINE-level data and KType 130708. Public catalogue references cross-check the KType identity as a 3008; the VIN→KType assignment remains partial and conflicts with the client-provided 5008.
+- Autofrance is excluded from the production cascade because commercial rights are unknown and the endpoint does not verify VIN existence.
 
 ## NOT VERIFIED
 
-- Accuracy of any free, commercial or client vehicle-identification provider.
+- Portuguese-market accuracy of any free, commercial or client vehicle-identification provider.
 - Manual vehicle taxonomy backed by real fitment data.
 - OEM search against a licensed production catalogue.
 - Vehicle-product fitment for any real product.
@@ -47,14 +50,15 @@ The provider-independent safety foundation is implemented and tested. No live VI
 
 ## Benchmark state
 
-- Eligible non-synthetic fixture rows: 1.
-- Independently verified fixture rows: 0.
+- Eligible non-synthetic fixture rows: 0.
+- Portuguese campaign inputs (including client-provided): 1.
+- Independently verified Portuguese fixture rows: 0.
 - Stage-1 requirement: 10-20 real, independently verifiable vehicles plus at least one VIN and one plate provider.
 - Current benchmark therefore validates mechanics only, not provider fitness.
 
 ## Cost state
 
-Cost scenarios exist for 1k/10k/50k/100k lookups and both cache policies. External provider cost fields remain unknown. Cost-per-correct-engine and cost-per-exact-variant cannot be calculated until price sheets and benchmark evidence exist.
+Cost scenarios exist for 1k/10k/50k/100k lookups and both cache policies. Known free request costs are recorded; commercial costs remain unknown or vendor-advertised. Cost-per-correct-engine and cost-per-exact-variant cannot be calculated until verified PT ground truth and benchmark evidence exist.
 
 ## Next evidence gate
 

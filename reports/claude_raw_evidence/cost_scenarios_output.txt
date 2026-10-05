@@ -1,0 +1,10 @@
+## Openapi PT-car (annual plan bounds, ex VAT)
+S=  10000: A calls=  10000 EUR     1800-    4000 | B    9500 EUR     1710-    3800 | C    3800 EUR     684-   1520 | D(no cache)    6650 EUR    1197-   2660 | D(cache)    2660 EUR     479-   1064
+S=  50000: A calls=  50000 EUR     9000-   20000 | B   47500 EUR     8550-   19000 | C   19000 EUR    3420-   7600 | D(no cache)   33250 EUR    5985-  13300 | D(cache)   13300 EUR    2394-   5320
+S= 100000: A calls= 100000 EUR    18000-   40000 | B   95000 EUR    17100-   38000 | C   38000 EUR    6840-  15200 | D(no cache)   66500 EUR   11970-  26600 | D(cache)   26600 EUR    4788-  10640
+## Matricula.co.pt (EUR0.20, -10% >1000 blocks=0.18)
+S=  10000: A calls=  10000 EUR     1800-    2000 | B    9500 EUR     1710-    1900 | C    3800 EUR     684-    760 | D(no cache)    6650 EUR    1197-   1330 | D(cache)    2660 EUR     479-    532
+S=  50000: A calls=  50000 EUR     9000-   10000 | B   47500 EUR     8550-    9500 | C   19000 EUR    3420-   3800 | D(no cache)   33250 EUR    5985-   6650 | D(cache)   13300 EUR    2394-   2660
+S= 100000: A calls= 100000 EUR    18000-   20000 | B   95000 EUR    17100-   19000 | C   38000 EUR    6840-   7600 | D(no cache)   66500 EUR   11970-  13300 | D(cache)   26600 EUR    4788-   5320
+per 1k lookups: 0.18->180, 0.20->200, 0.40->400, Vincario 0.249->249 (1k plan), 0.22->220 (5k plan)
+per 10k lookups: 0.18->1800, 0.20->2000, 0.40->4000, Vincario 0.22->2200

@@ -1,0 +1,6 @@
+# Autoways (AUTO-NOW) official OpenAPI specs, fetched 2026-10-05 from the public SwaggerHub registry (HTTP 200)
+- `spec_AUTONOW-PT.json`: `GET https://app.auto-ways.net/api/v1/pt?plaque=<plate>&token=<token>&output_lang=en|fr`. "80M license plates in Portugal ... identifier like K-type for TecDoc". Example response (vendor-supplied, for a Portuguese-format plate `89XL64`, NOT our test): `AWN_VIN, AWN_marque, AWN_modele, AWN_modele_etude, AWN_k_type, AWN_puissance_chevaux, AWN_puissance_KW, AWN_code_moteur, AWN_energie, AWN_date_mise_en_circulation, AWN_nbr_cylindre_energie, AWN_TID, AWN_libelle, ...` (many fields '0'/'Inconnue' for unknown).
+- `spec_VIN-DECODER.json`: `GET /vin/?vin=&country=FR|DE|AT|BE|ES|IT|PT&token=`; description lists Germany, Austria, Belgium, Spain, France, Italy and **Portugal**; example adds `AWN_version`, `AWN_type_mine`, `AWN_k_type`, `AWN_code_moteur`.
+- Free token: https://auto-ways.net/demo (24 h).
+- **Not used:** the spec pre-fills a default `token` and a public GitHub gist contains a token in plain text. Those are not credentials issued to us; I did not call the API with them. (Worth telling Autoways their gist leaks a token.)
+- Not tested: no real response for `CG-17-GC` or the VIN.

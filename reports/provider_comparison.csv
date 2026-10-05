@@ -1,9 +1,14 @@
 provider,route,status,verified_n,mock_n,correct_vehicle,correct_engine,correct_variant,ambiguous,wrong,no_result,p50_latency_ms,p95_latency_ms,monthly_cost_10k,commercial_rights,note
-Local VIN structural parser,VIN,PARTIALLY VERIFIED,1,0,,,,,,,,,,UNKNOWN,Structure and non-blocking EU checksum only; no vehicle identity.
+Local VIN structural parser,VIN,PARTIALLY VERIFIED,0,0,,,,,,,,,,UNKNOWN,Actual test n=1. Structure and non-blocking EU checksum only; no vehicle identity.
+Autofrance public VIN,VIN → KType,PARTIALLY VERIFIED,0,0,,,0,1,,0,3916.2,3916.2,0.0,RESEARCH ONLY; PRODUCTION RIGHTS UNKNOWN,"Actual test n=1. ENGINE-level result + KType 130708; KType identity cross-checked, VIN mapping partial, client model disputed, no existence check."
+NHTSA vPIC public,VIN,PARTIALLY VERIFIED,0,0,,,,0,,0,874.3,874.3,0.0,PUBLIC API,"Actual test n=1 without independent truth: make only, BASIC_ONLY; not fit for PT automatic identity."
+Self-hosted vPIC,VIN,PARTIALLY VERIFIED,0,0,,,,0,,0,162.8,162.8,0.0,MIT CODE / NHTSA DATA,Actual test n=1 without independent truth; reproduces public vPIC BASIC result and is not an independent source.
 Mock identity provider,VIN / matrícula,MOCK ONLY,0,1,,,,,,,,,,UNKNOWN,Plumbing and report mechanics only.
 Existing client vehicle software,matrícula / VIN,NOT VERIFIED,0,0,,,,,,,,,,UNKNOWN,Product and export/API capabilities not documented.
 TelePeças,matrícula / VIN,WAITING FOR CREDENTIALS,0,0,,,,,,,,,,UNKNOWN,"Documentation, credentials, rights and price sheet required."
 Matricula.co.pt,matrícula,WAITING FOR CREDENTIALS,0,0,,,,,,,,,,UNKNOWN,"Test credentials, terms and response schema required."
+Openapi PT-car,matrícula,NOT VERIFIED,0,0,,,,,,,,,4000.0,DOCUMENTED B2B; TERMS TO VERIFY,Portugal endpoint and pricing documented; no real response tested.
+Tips4y matrícula,matrícula → KType,NOT VERIFIED,0,0,,,,,,,,,,CONTRACT REQUIRED,Portugal plate/VIN/KType bridge documented; no credentials or response.
 Commercial VIN provider,VIN,NOT VERIFIED,0,0,,,,,,,,,,UNKNOWN,Candidate not selected.
 TecAlliance / TecDoc,VIN / VRM / catalogue / fitment,WAITING FOR CREDENTIALS,0,0,,,,,,,,,,UNKNOWN,Direct consultation and licence required.
 partslink24,VIN / OE validation,WAITING FOR CREDENTIALS,0,0,,,,,,,,,,UNKNOWN,Manual client access confirmed; programmatic rights unknown.

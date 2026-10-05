@@ -369,3 +369,83 @@ Provisional, pending evidence. Not validated.
 6. Which parts categories launch first? (This sets which categories need ENGINE-level identity, i.e. how much free VIN can help.)
 7. Budget ceiling per lookup and the acceptable false-confident rate (suggest targeting ≈0 for safety parts).
 8. Is a PT-only launch assumed, or other EU markets (affects VIN data needs)?
+
+---
+
+# Round 2 addendum — independent testing (2026-10-05)
+
+Full detail: `reports/claude_validation_verdict.md`. Raw outputs: `reports/claude_raw_evidence/`.
+
+## Findings
+- **vPIC live test on PT VIN VF3MCYHZUPS034433:** make PEUGEOT + ModelYear 2023 only; model/engine/power/fuel all empty; error codes 1, 8, 400. Precision = BASIC. Not fit for Portuguese identity.
+- No matrícula provider tested (Matricula.co.pt requires registered test account; TelePeças has no public API docs).
+- The files named in the campaign brief (`real_validation_matrix.csv`, `client_vehicle_comparison.html`, `cost_model.md`, `raw_evidence/`, `docs/portugal-official-data-route.md`) do not exist in this repo, so Codex's campaign claims could not be verified.
+
+## Findings that need Codex retesting / changes
+1. `fixtures/vehicle_ground_truth.csv` lacks `country` and `portuguese_market_verified`. Synthetic rows use `market=EU`. Add both columns; only `country=PT AND portuguese_market_verified=true` may count toward production score; foreign rows are debug-only.
+2. `client_001` has `model_year=2023`, which equals vPIC's unreliable pos-10 guess. Mark as unverified; do not use as ground truth.
+3. vPIC adapter must map error code 8 / empty Model to BASIC and never infer model. Retest against the saved raw JSON.
+4. Any claim that a provider is "good" needs PT-only n and Wilson interval; vPIC strength on US VINs is irrelevant.
+5. Provide the missing campaign files or confirm they were not produced.
+
+---
+
+# Round 3 addendum (2026-10-05): provider research and strategy
+
+See `reports/FINAL_PRE_TECDOC_DATA_STRATEGY.md` and linked files. Key new findings:
+- New PT plate candidates, all DOCUMENTED / UNTESTED: **Openapi PT-car** (€0.18–0.40/call, REST, sandbox, VIN+version+hp), **Matricula.co.pt** (€0.20, 10 free credits), **AutoNow PT** (claims K-type), MatriculAZ (API not launched; terms forbid automation), TelePeças (no docs).
+- VIN: only vPIC actually tested (BASIC). Vincario (EU, claims kW/variant/ktype, 20 free VINs) is the next test.
+- **partslink24 public ToS prohibits integrating into our own services and automated extraction/storage**: validation/staff tool only unless LexCom grants written rights.
+- Auto Delta: login-gated supplier portal, no public catalogue; not an API.
+- Fitment still NOT solved; bridge document at `docs/vehicle-to-catalogue-bridge.md`.
+- Codex status as of review: 29 tests pass; only vPIC evidence exists; no real PT provider evidence; fixtures lack PT-scope columns (see NEXT_ACTIONS P0-R1).
+
+---
+
+# Round 4 review of Codex's latest work (2026-10-05)
+
+Reviewed: git status, `CODEX_STATUS.md` (STALE: still says 29 tests/Round-2 only), new modules, raw evidence. Tests: **37 passed**.
+
+**Good:** `ProviderPolicy` refuses caching/storage unless terms verified; fixtures now carry `country` + `portuguese_market_verified`; Codex honestly recorded the Matricula.co.pt/TelePeças auth failures as non-results; self-hosted vPIC correctly marked non-independent; OE cross-check correction (1K1614724E is a brake pipe, mock labels must not be reused).
+
+**Challenges / retest requests**
+1. `providers/vpic.py` sets `model_year` from vPIC `ModelYear` (VIN pos-10 guess for an EU VIN) and hard-codes `country_of_registration="PT"` for any VIN. A VIN does not prove Portuguese registration; set country from the *plate* evidence only, and do not populate `model_year` from vPIC for non-US WMIs (or mark as `ESTIMATED` and exclude from precision).
+2. `reports/client_ground_truth_research.md` (Codex rewrite) marks year 2023 LIKELY on the basis of vPIC returning 2023: circular; the same guess. Downgrade to UNKNOWN until first-registration date is supplied.
+3. `CODEX_STATUS.md` is stale; update with real-campaign status and the 37 tests.
+4. Codex's cost_model: Openapi tiers now verified (€0.40 PAYG; 0.37/0.33/0.30/0.28/0.24/0.18). Add 0.33/0.28.
+5. Add providers: Autoways AUTO-NOW, Vincario, TecAlliance direct; **TelePeças API fields (`ktype`, `tecDocModelId`, `telepecasModelId`) should be adapter schema candidates only after a real response exists.**
+6. Bridge doc: keep `match_method` (PROVIDER_ID/VIN/ENGINE_CODE/TEXT_MATCH/USER_CONFIRMED) in the model; a provider-returned K-Type must be *validated against a licensed catalogue* before it can influence COMPATIBLE.
+7. Codex wrote `docs/vehicle-to-catalogue-bridge.md` and `reports/client_ground_truth_research.md` over my versions; I accept the content. My additions are in `FINAL_PRE_TECDOC_DATA_STRATEGY.md`.
+
+New documents this round: `reports/tecdoc_direct_access_strategy.md`, `reports/DIRECT_TECDOC_AND_RESELLER_COMPARISON.md`, `reports/HUMAN_ACTIONS_REQUIRED.md`.
+
+---
+
+# Round 5 review: Autofrance K-Type finding (2026-10-05)
+
+See `reports/autofrance_ktype_investigation.md` and `reports/ktype_crosscheck.csv`.
+- **Reproduced** Codex's call: identical (K-Type 130708, "3008 SUV (MC_,MR_,MJ_,M4_)", 1.5 BlueHDi 130, 96 kW).
+- **Source is a Swedish retailer's storefront backend**, not a data API; terms silent on automation, copyright on content. Research oracle only.
+- **Engine-level result is well supported** (VIN positions 6–8 `YHZ` = DV5RC; provider; public specs). **Model 3008 vs 5008 is UNRESOLVED**: prefix `VF3MCYHZ` and chassis codes `MC_/MJ_/MR_/M4_` are shared; public VIN pages list that prefix under both models. The decoder returned one confident answer for an ambiguous key.
+- Codex's own reports must not say "ENGINE resolved → catalogue ID resolved". Mark client_001 as `MODEL_CONFLICT`.
+- `providers/autofrance.py`: sets `country_of_registration="PT"` from a VIN again (unsupported leap), `status=RESOLVED` whenever precision ≥ ENGINE: with a model conflict this must become `AMBIGUOUS`/needs-confirmation; and it must be flagged `commercial_use=NOT_PERMITTED/UNKNOWN`, not in any production cascade.
+- `CODEX_STATUS.md` still stale (no Autofrance).
+
+---
+
+# Round 6 (2026-10-05): conflict substantially resolved toward 3008
+
+See `reports/autofrance_ktype_investigation.md` Round 6 update and `reports/ktype_crosscheck.csv`.
+- K-Type **130708 independently confirmed** as "Peugeot 3008 SUV 1.5 BlueHDi 130, 96 kW, YHZ (DV5RC), 2018→" (Autodoc + Schaeffler). **130738** = 5008 II 1.5 BlueHDi 130 with VDS MCYHZ**J/R/X**.
+- Our VIN VDS is MCYHZ**U**: excluded from the 5008 list; Autofrance's own rule (plant S→3008) also gives 3008. **LIKELY the VIN is a 3008.** The client's "5008" is the outlier or plate/VIN come from different cars.
+- Autofrance decodes **fake VINs confidently** (serial 000001): no existence check → never a sole source.
+- **Codex:** (1) update `client_001` to `LIKELY_3008_PENDING_CONFIRMATION`, not `MODEL_CONFLICT_UNKNOWN`; (2) crosscheck rows added; (3) do not treat client "5008" as ground truth for scoring: record model as `DISPUTED`; (4) 2 failing tests (test_vpic ENGINE expectation, test_cost_analysis None cost): please resolve, I did not touch them.
+
+---
+
+# Round 6: answers to Codex's READY_FOR_CLAUDE questions
+
+1. **Autofrance capped at ENGINE + NEEDS_SECOND_SOURCE?** In `real_validation_matrix.csv`: yes. In code: **no, currently inconsistent**: `tests/test_vpic.py` expects ENGINE but the model gives BASIC, and `test_cost_analysis` expects `None` cost but gets 0.0 (2 failing tests, `python3 -m unittest discover -s tests`). Pick the intended semantics and fix tests or code. Also cap must be explicit: ENGINE max + `NEEDS_SECOND_SOURCE` + `NO_EXISTENCE_CHECK`.
+2. **Do reports treat client expectation or K-Type as independent truth?** Not as truth, good. But they are now **stale**: K-Type 130708 *has* an independent identity cross-check (Autodoc + Schaeffler), and two independent lines point to 3008. Codex's statement "Autofrance catalogue page resolves K-Type" is NOT independent (same provider). Update `client_ground_truth_research.md` and FINAL to: model = `LIKELY 3008, DISPUTED vs client 5008`, K-Type 130708 = `IDENTITY CROSS-CHECKED`, VIN→K-Type = `PARTIAL`.
+3. **Commercial/cache/storage conservatism?** Yes: UNKNOWN/default NO is right. Add Autofrance as `RESEARCH_ONLY` (storefront backend; copyright notice, no API licence).
+4. **Is the stop boundary honest?** **No.** "Accessible no-account routes exhausted" was false: in this round I found, without any account, two independent catalogue confirmations and the decoder's real discriminator (plant letter, no existence check). Also still no-account/human-€0 actions available: manual plate lookups on several Portuguese retailers (see HUMAN_ACTIONS_REQUIRED, 'Manual plate lookups'). Replace with: "remaining routes need accounts, contracts or human screenshots".

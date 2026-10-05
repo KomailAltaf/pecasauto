@@ -1,6 +1,5 @@
-fixture_id,truth_class,truth_source,registration,vin,make,model,generation,model_year,first_registration_year,engine_family,engine_code,fuel,power_kw,power_hp,variant,body,transmission,vehicle_class,market
-client_001,CLIENT_PROVIDED,client screenshot,CG-17-GC,VF3MCYHZUPS034433,Peugeot,5008,II,2023,,1.5 BlueHDi,,Diesel,,130,,,,Passenger,PT
-synthetic_multi_engine,SYNTHETIC,test design only,AA-00-AA,WVWZZZ1KZ6W000001,Volkswagen,Golf,V,2006,2006,1.9 TDI,BKC,Diesel,77,105,base,Hatchback,Manual,Passenger,EU
-synthetic_power_variant,SYNTHETIC,test design only,00-AA-00,VF7ABCDE123456789,Citroen,C4,II,2015,2015,1.6 BlueHDi,BHZ,Diesel,88,120,120,Sedan,Manual,Passenger,EU
-synthetic_lcv,SYNTHETIC,test design only,00-00-AA,WDB90600000000001,Mercedes-Benz,Sprinter,W906,2018,2018,2.1 CDI,OM651,Diesel,120,163,316 CDI,Van,Manual,LCV,EU
-
+fixture_id,truth_class,truth_source,registration,vin,make,model,generation,model_year,first_registration_year,engine_family,engine_code,fuel,power_kw,power_hp,variant,body,transmission,vehicle_class,market,country,portuguese_market_verified,research_status
+client_001,CLIENT_PROVIDED,client screenshot,CG-17-GC,VF3MCYHZUPS034433,Peugeot,5008,II,2023,,1.5 BlueHDi,,Diesel,,130,,,,Passenger,PT,PT,false,LIKELY_3008_PENDING_CONFIRMATION_CLIENT_MODEL_DISPUTED
+synthetic_multi_engine,SYNTHETIC,test design only,AA-00-AA,WVWZZZ1KZ6W000001,Volkswagen,Golf,V,2006,2006,1.9 TDI,BKC,Diesel,77,105,base,Hatchback,Manual,Passenger,EU,DE,false,DEBUG_ONLY
+synthetic_power_variant,SYNTHETIC,test design only,00-AA-00,VF7ABCDE123456789,Citroen,C4,II,2015,2015,1.6 BlueHDi,BHZ,Diesel,88,120,120,Sedan,Manual,Passenger,EU,FR,false,DEBUG_ONLY
+synthetic_lcv,SYNTHETIC,test design only,00-00-AA,WDB90600000000001,Mercedes-Benz,Sprinter,W906,2018,2018,2.1 CDI,OM651,Diesel,120,163,316 CDI,Van,Manual,LCV,EU,DE,false,DEBUG_ONLY

@@ -1,0 +1,6 @@
+- vin_VF3MCYHZUPS034433.json: my own reproduction (2026-10-05, HTTP 200, 1.96 s), identical to Codex's `reports/raw_evidence/autofrance_VF3MCYHZUPS034433.json`.
+- Search-snippet evidence (not stored as raw pages; fastcarcheck.uk and carsbat.com returned HTTP 403 to automated fetch and I did not bypass): VF3MCYHZ-prefix VINs listed as both 3008 and 5008; Schaeffler listings "PEUGEOT 5008 II (MC_, MJ_, MR_, M4_)".
+- Autofrance terms (köpvillkor) fetched: copyright on site content; no API/automation clause.
+- Round 6: 8 public VINs probed (2 s spacing): 5x `VF3MCYHZ?PS/NS` → 130708 (3008); `VF3MCYHZJJL092080` → 130738 (5008 II); `VF3M45GFUNS156272` → 132146 (5008 II 1.6 PureTech 180); `VF3M4DGZUPS161185` → 137609 (3008 Hybrid 165). Files `vin_*.json`.
+- `synthetic_debug/`: 6 SYNTHETIC debug VINs (serial 000001). Decoder answered all confidently; only plant letter (pos 11: S→3008, L→5008) changed the result; pos 9 irrelevant. NOT accuracy evidence.
+- Independent catalogue evidence for 130708 / 130738 is from search-result titles/URLs (Autodoc, rolling.hu Schaeffler); Autodoc pages themselves 403 to automated fetch, not bypassed.

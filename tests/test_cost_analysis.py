@@ -10,10 +10,17 @@ class CostAnalysisTests(unittest.TestCase):
         self.assertEqual({row["cache_policy"] for row in rows}, {"CACHE_ALLOWED", "CACHE_FORBIDDEN"})
 
     def test_external_costs_are_not_invented(self):
+        documented_free = {
+            "Local VIN structural parser",
+            "Autofrance public VIN",
+            "NHTSA vPIC public",
+            "Self-hosted vPIC",
+        }
         for row in cost_scenarios():
-            if row["provider"] != "Local VIN structural parser":
+            if row["provider"] in documented_free:
+                self.assertEqual(row["estimated_cost"], 0.0)
+            else:
                 self.assertIsNone(row["estimated_cost"])
 
 
 if __name__ == "__main__": unittest.main()
-

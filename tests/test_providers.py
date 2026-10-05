@@ -2,6 +2,7 @@ import unittest
 
 from app.models import EvidenceStatus, IdentityResult, LookupStatus, PrecisionLevel, VehicleCandidate
 from app.orchestrator import IdentityOrchestrator, ProviderRateLimitError, ProviderSchemaError, ProviderStep
+from app.provider_policy import ProviderPolicy
 from providers.base import VehicleIdentityProvider
 from providers.mock import MockIdentityProvider
 
@@ -49,10 +50,22 @@ class ProviderTests(unittest.TestCase):
 
     def test_provider_scoped_cache(self):
         exact = ExactProvider()
-        orchestrator = IdentityOrchestrator([ProviderStep(exact, PrecisionLevel.ENGINE)])
+        policy = ProviderPolicy("exact", "TEST", cache_allowed=True, storage_allowed=False, cache_ttl_seconds=60, terms_verified=True)
+        orchestrator = IdentityOrchestrator([ProviderStep(exact, PrecisionLevel.ENGINE, policy=policy)])
         orchestrator.identify("vin", "VF3MCYHZUPS034433")
         orchestrator.identify("vin", "VF3MCYHZUPS034433")
         self.assertEqual(exact.calls, 1)
+
+    def test_unknown_terms_disable_cache(self):
+        exact = ExactProvider()
+        orchestrator = IdentityOrchestrator([ProviderStep(exact, PrecisionLevel.ENGINE)])
+        orchestrator.identify("vin", "VF3MCYHZUPS034433")
+        orchestrator.identify("vin", "VF3MCYHZUPS034433")
+        self.assertEqual(exact.calls, 2)
+
+    def test_unverified_terms_cannot_enable_cache(self):
+        with self.assertRaises(ValueError):
+            ProviderPolicy("unsafe", cache_allowed=True)
 
     def test_circuit_opens_after_threshold(self):
         failing = FailingProvider()

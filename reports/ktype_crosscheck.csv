@@ -1,0 +1,7 @@
+vin,provider,ktype,claimed_vehicle,independent_reference,agreement,status
+VF3MCYHZUPS034433,autofrance_public (api.autofrance.se),130708,"PEUGEOT 3008 SUV (MC_ MR_ MJ_ M4_) 1.5 BlueHDi 130 96kW YHZ/DV5RC","Autodoc (130708 = 3008 SUV 1.5 BlueHDi 130 YHZ DV5RC, search-result URLs/titles); Schaeffler listing 3008 SUV MC_ MR_ MJ_ M4_ 1.5 BlueHDi 130; VIN VDS YHZ = engine code",AGREES (K-Type identity independently confirmed),CONFIRMED_IDENTITY_OF_KTYPE; VIN->KTYPE for this VIN PARTIAL
+VF3MCYHZUPS034433,Autodoc/Schaeffler catalogue (5008 II list),130738,"PEUGEOT 5008 II 1.5 BlueHDi 130 VDS MCYHZJ/MCYHZR/MCYHZX","our VIN VDS is MCYHZU: not in 5008 list",DISAGREES with 5008 for this VIN,SUPPORTS_3008
+VF3MCYHZUPS034433,client expectation,,Peugeot 5008 II 1.5 BlueHDi 130,none (screenshot not independently verified),n/a,CLIENT_PROVIDED
+VF3MCYHZUPS034433,NHTSA vPIC,,PEUGEOT only,n/a,AGREES on make only,BASIC
+VF3MCYHZUPS034433,partslink24 (manual by Fahad),,,,,WAITING FOR HUMAN OUTPUT
+VF3MCYHZUPS034433,Autoways / Vincario / TelePeças / TecAlliance,,,,,WAITING FOR ACCESS

@@ -1,0 +1,14 @@
+# Data strategy for Fahad (plain language)
+
+**Status in one line:** we know the design and have shortlisted services, but we have **not yet confirmed any Portuguese plate service works** on your cars. That test is next.
+
+1. **Matrícula search.** The customer types the plate. We ask a Portuguese plate-lookup service (candidates: Openapi, Matricula.co.pt, AutoNow; roughly €0.18–0.40 per lookup, untested) which car it is. We show it back ("Peugeot 5008 1.5 BlueHDi 130, is this your car?") and the customer confirms.
+2. **VIN search.** Same idea with the chassis number. The free American service we tried only said "Peugeot" for your car, so it is not enough. A European paid service (candidate: Vincario, about €0.22–0.49 each, untested) may do better.
+3. **Before TecDoc.** We can build the whole shop experience: plate/VIN search, choose-your-car, search by part number, stock and prices from Primavera. What we cannot honestly do yet is say "this part fits your car" automatically, because that needs a licensed parts-compatibility catalogue. Until then compatibility is confirmed by your team or shown as "please confirm".
+4. **When TecDoc arrives.** It plugs into the same slot. Customers see the same site; the "fits your car" check becomes automatic.
+5. **partslink24.** Keep using it as your staff tool and for checking our results. Its standard terms **do not allow** connecting it to our website or extracting data automatically, so we should not plan on it as the shop's data engine unless partslink24 gives written permission. Please ask them.
+6. **Primavera.** Stock, prices, customers, orders and invoices only. It does not tell us which car a part fits.
+7. **Cost.** Plate lookups ~€180–400 per 1,000 (vendor prices, before VAT). With returning customers' cars saved by us and engine confirmation by the customer, a spend at 10,000 searches/month is roughly €500–1,100 if we may keep customers' cars, or €1,200–2,700 if not (example figures built on assumed traffic mix and vendor list prices, not quotes; see the cost scenarios in the final strategy file).
+8. **What we need from you:** (a) 10–20 real customers' cars (plate, VIN, and a partslink24 screenshot showing engine code and power); (b) the name of your current plate-lookup software and where it gets data; (c) your partslink24 contract/package details; (d) your Primavera version and which modules you have; (e) an Auto Delta customer login if you have one, for cross-checks.
+9. **If the car can't be identified automatically.** The site asks one or two simple questions (engine/power, or the VIN). If still unclear, it shows "contact us" and your team confirms.
+10. **Avoiding wrong parts.** "Fits your car ✓" appears only when the car is identified precisely **and** a licensed catalogue confirms it. Any doubt or disagreement between sources shows "please confirm" or goes to your team. We would rather show no answer than a confident wrong one.
