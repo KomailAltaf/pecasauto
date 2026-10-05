@@ -1,0 +1,18 @@
+timestamp: 2026-10-05T13:47Z (review written shortly after)
+git commit reviewed: NONE. Directory is not a git repository.
+files reviewed:
+  README.md
+  collaboration/CODEX_STATUS.md
+  collaboration/OPEN_QUESTIONS.md
+  collaboration/DECISIONS.md
+  collaboration/NEXT_ACTIONS.md
+  collaboration/CLAUDE_REVIEW.md (placeholder, overwritten)
+  app/ providers/ tests/ docs/ benchmarks/ fixtures/ reports/ (each contains only an empty .gitkeep)
+  reports/executive_findings.md: does not exist
+tests executed: none (no tests exist)
+benchmark executed: none (no benchmark exists); no provider API was called
+only check run: local deterministic VIN structure/check-digit calculation on client VIN VF3MCYHZUPS034433
+  (17 chars, no I/O/Q; NA check digit does not validate, expected for an EU VIN)
+major conclusion: Repo is an empty scaffold. Nothing about VIN, matricula, OEM search or fitment has been
+  validated. Architecture work may start (provider still provisional); no customer-facing fitment claims
+  and no provider trust until a Stage-1 benchmark and rights register exist.
