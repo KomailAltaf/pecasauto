@@ -1,7 +1,7 @@
 import unittest
 
 from app.agreement import compare_candidates
-from app.fallback import next_manual_step
+from app.fallback import ConfirmationStatus, ManualConfirmationSession, next_manual_step
 from app.models import VehicleCandidate
 
 
@@ -12,6 +12,14 @@ class FallbackTests(unittest.TestCase):
         self.assertEqual(step.state, "NEEDS_ENGINE_CONFIRMATION")
         self.assertFalse(step.may_claim_compatibility)
         self.assertEqual(len(step.options), 2)
+
+    def test_manual_engine_confirmation_updates_canonical_vehicle(self):
+        vehicle = VehicleCandidate(make="Peugeot", model="5008", generation="II")
+        step = next_manual_step(vehicle, ("1.5 BlueHDi 130", "2.0 BlueHDi 180"))
+        session = ManualConfirmationSession(vehicle, step)
+        confirmed = session.confirm("1.5 BlueHDi 130")
+        self.assertEqual(session.status, ConfirmationStatus.CONFIRMED)
+        self.assertEqual(confirmed.engine_family, "1.5 BlueHDi 130")
 
     def test_disagreement_requires_review(self):
         a = VehicleCandidate(make="Peugeot", model="5008", generation="II", engine_family="1.5 BlueHDi")
@@ -26,4 +34,3 @@ class FallbackTests(unittest.TestCase):
         result = compare_candidates([a, b])
         self.assertEqual(result.state, "AGREE")
         self.assertIn("engine_code", result.missing)
-

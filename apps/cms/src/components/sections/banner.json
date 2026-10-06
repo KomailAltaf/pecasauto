@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_sections_banners",
+  "info": { "displayName": "Banner" },
+  "attributes": {
+    "label": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "body": { "type": "text" },
+    "linkLabel": { "type": "string" },
+    "linkHref": { "type": "string" },
+    "tone": { "type": "enumeration", "enum": ["neutral", "green", "red"], "default": "neutral" }
+  }
+}

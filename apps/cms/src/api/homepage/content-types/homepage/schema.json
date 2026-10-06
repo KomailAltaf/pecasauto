@@ -1,0 +1,12 @@
+{
+  "kind": "singleType",
+  "collectionName": "homepages",
+  "info": { "singularName": "homepage", "pluralName": "homepages", "displayName": "Homepage" },
+  "options": { "draftAndPublish": true },
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "intro": { "type": "text" },
+    "pageBuilder": { "type": "dynamiczone", "components": ["sections.hero", "sections.rich-text", "sections.feature-grid", "sections.banner"] },
+    "seo": { "type": "component", "repeatable": false, "component": "shared.seo" }
+  }
+}

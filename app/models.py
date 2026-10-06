@@ -13,6 +13,7 @@ class PrecisionLevel(IntEnum):
 
 
 class LookupStatus(str, Enum):
+    NOT_CONFIGURED = "NOT_CONFIGURED"
     NO_RESULT = "NO_RESULT"
     AMBIGUOUS = "AMBIGUOUS"
     PARTIAL = "PARTIAL"
@@ -23,6 +24,7 @@ class LookupStatus(str, Enum):
 
 
 class EvidenceStatus(str, Enum):
+    NOT_CONFIGURED = "NOT_CONFIGURED"
     VERIFIED = "VERIFIED"
     PARTIALLY_VERIFIED = "PARTIALLY VERIFIED"
     NOT_VERIFIED = "NOT VERIFIED"

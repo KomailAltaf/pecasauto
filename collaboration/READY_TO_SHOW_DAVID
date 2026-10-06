@@ -1,0 +1,12 @@
+READY TO SHOW DAVID: 2026-10-06 (Claude)
+
+Scope: the PeçasAuto demo as it runs today with no live provider connected.
+Basis: reports/PEÇASAUTO_DEMO_REVIEW.md "FINAL VERDICT". All 15 final approval checks pass; the original security/CMS blockers (B1 CMS leak, B2 CMS labelling, B3 browser credentials + session secret, B4 garage dedupe) are resolved.
+
+How to present it: the flow and safety rules are real; provider data, products, prices, stock, fitment and payments are demo / waiting for access / documented only. Use reports/DAVID_DEMO_SCRIPT.md and reports/DAVID_QA_PREP.md.
+
+Known non-blocking items (do not hide them from David):
+- A live but unvalidated provider result currently carries the label REAL_TESTED; replace with a distinct "live, unvalidated" label before connecting the first real provider.
+- CMS pages/navigation/SEO are modelled, not rendered (labelled on the architecture page).
+- Admin modules other than Providers are placeholders (labelled NOT BUILT).
+- No plate provider is connected, so arbitrary plates correctly return "waiting for plate provider"; no fitment source exists, so every product says "confirm compatibility".

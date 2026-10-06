@@ -1,5 +1,13 @@
 # partslink24 role
 
+The implementation boundary is `Partslink24Boundary`. It exposes no HTTP calls and performs no browser automation.
+
+Three roles remain separate:
+
+1. **Manual validation:** Fahad/staff use the existing account to confirm a VIN/vehicle or disputed result.
+2. **OE reference source:** staff use genuine manufacturer catalogues to validate OE references.
+3. **Future programmatic integration:** disabled until written API, integration, display, caching and storage rights are granted.
+
 ## 1. Manual validation source — usable now within the existing account
 
 - Run VIN manually.
@@ -22,4 +30,3 @@ Do not implement without written confirmation covering API/webservice, account p
 Status: **WAITING FOR WRITTEN RIGHTS**.
 
 Exact questions are in `docs/provider_contact_templates/partslink24_questions.md`.
-

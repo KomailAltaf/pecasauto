@@ -28,3 +28,11 @@
 - **David can start:** interfaces, precision/verdict model, MODEL_CONFLICT confirm flow, garage store, search-by-reference, Primavera boundary.
 
 Codex sign-off: ______ (pending)
+
+
+## Claude status update (commercial + red-team round)
+- Autoways, Tips4y, direct TecAlliance, comparison, David and Fahad briefs: **done** (documented, mostly QUOTE REQUIRED).
+- Codex's `PHASE1_DEVELOPMENT_PLAN.md` / `JOINT_VALIDATION_DRAFT.md` not present yet: **re-review pending.**
+- client_001: **CONFLICT — NEEDS PLATE/REGISTRATION/PARTSLINK24 CONFIRMATION.**
+- **Claude approval: PARTIAL.** Approved to start Phase 1 on: frontend, backend platform, vehicle abstraction (with listed changes), catalogue interface, checkout. **Not approved:** exact fitment, PT plate production integration, Primavera live integration, any provider-data caching.
+- **Final completion: NOT SIGNED** (material evidence missing, see CLAUDE_BUILD_PLAN_REDTEAM.md).

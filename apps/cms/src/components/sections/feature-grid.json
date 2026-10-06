@@ -1,0 +1,8 @@
+{
+  "collectionName": "components_sections_feature_grids",
+  "info": { "displayName": "Feature grid" },
+  "attributes": {
+    "heading": { "type": "string" },
+    "features": { "type": "component", "repeatable": true, "component": "shared.feature" }
+  }
+}

@@ -1,0 +1,55 @@
+# Vehicle lookup ready for a provider key
+
+Date: 2026-10-06
+
+This marker means the adapter/configuration/CLI/customer-confirmation architecture is ready to receive a real Portugal-capable provider credential. It does not claim that any unconfigured provider works or that fitment is verified.
+
+## Add a key
+
+Copy `.env.example` to `.env`, add the provider key and any contract-specific base URL/paths, select it with `VEHICLE_PROVIDER`, and restart FastAPI.
+
+Auto Ways accepts:
+
+```text
+AUTOWAYS_API_KEY=...
+```
+
+The legacy name `AUTOWAYS_API_TOKEN` is also accepted.
+
+## Immediate tests
+
+```bash
+cd ~/Downloads/portugal-auto-validation-lab
+python -m tools.test_vehicle --plate "CG-17-GC" --country PT --provider cascade
+python -m tools.test_vehicle --vin "VF3MCYHZUPS034433" --country PT --provider cascade
+```
+
+Individual provider switches:
+
+```bash
+--provider autoways
+--provider tips4y
+--provider matriculapt
+--provider telepecas
+--provider cascade
+```
+
+## Verified before this marker
+
+- 76 Python/API/provider tests pass.
+- 3 frontend tests pass.
+- Next.js production build passes with 15 routes.
+- Strapi production build passes.
+- Strapi PostgreSQL content/security verifier passes.
+- Plate API returns `WAITING_FOR_PROVIDER` and zero candidates with no credentials.
+- VIN cascade runs vPIC first and preserves its BASIC partial result exactly.
+- CLI outputs raw payload, normalized candidates, precision, engine fields, K-Type, HTTP result, cost and next action.
+- One/multiple/partial/no-result paths are represented.
+- Public browser bundle contains no FastAPI credentials.
+- Protected BFF endpoint is 401 without an HTTP-only session and succeeds after local login.
+- Public CMS product endpoint contains no admin email, password hash or token fields.
+- Garage save-twice regression passes with and without VIN/plate identifiers.
+
+## Safety boundary
+
+A successful identity response or returned K-Type is not fitment evidence. Customer confirmation resolves identity ambiguity; a trusted FitmentProvider must separately establish compatibility.

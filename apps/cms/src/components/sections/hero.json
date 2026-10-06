@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_sections_heroes",
+  "info": { "displayName": "Hero" },
+  "attributes": {
+    "eyebrow": { "type": "string" },
+    "heading": { "type": "string", "required": true },
+    "body": { "type": "text" },
+    "primaryLabel": { "type": "string" },
+    "primaryHref": { "type": "string" },
+    "image": { "type": "media", "multiple": false, "allowedTypes": ["images"] }
+  }
+}

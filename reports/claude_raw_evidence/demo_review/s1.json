@@ -1,0 +1,1 @@
+{"detail":[{"type":"literal_error","loc":["body","method"],"msg":"Input should be 'registration' or 'vin'","input":"registration CG-17-GC","ctx":{"expected":"'registration' or 'vin'"}}]}

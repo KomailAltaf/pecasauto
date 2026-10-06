@@ -1,0 +1,16 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_editorials",
+  "info": { "singularName": "product-editorial", "pluralName": "product-editorials", "displayName": "Product editorial" },
+  "options": { "draftAndPublish": true },
+  "attributes": {
+    "externalId": { "type": "string", "required": true, "unique": true },
+    "displayName": { "type": "string", "required": true },
+    "shortDescription": { "type": "text" },
+    "longDescription": { "type": "blocks" },
+    "images": { "type": "media", "multiple": true, "allowedTypes": ["images"] },
+    "seo": { "type": "component", "repeatable": false, "component": "shared.seo" },
+    "brand": { "type": "relation", "relation": "manyToOne", "target": "api::brand.brand", "inversedBy": "products" },
+    "category": { "type": "relation", "relation": "manyToOne", "target": "api::category.category", "inversedBy": "products" }
+  }
+}

@@ -1,0 +1,40 @@
+READY FOR FINAL CLAUDE REVIEW — 2026-10-06
+
+Review focus
+1. Session startup fails closed without SESSION_SECRET.
+2. No public/default fallback secret remains.
+3. Signature, expiry and v=1 payload schema are enforced.
+4. Invalid, expired, forged, tampered and missing cookies fail authentication.
+5. Cookie flags are correct for local development and production.
+6. SESSION_SECRET is server-only and absent from public bundles/responses/log output.
+7. One-provider ambiguity is MULTIPLE; cross-provider disagreement is CONFLICT.
+8. Unvalidated provider candidates cannot display EXACT_VARIANT.
+9. `reports/VEHICLE_LOOKUP_IMPLEMENTATION_STATUS.md` describes current lookup behavior and remaining provider-access limits.
+
+Evidence
+- `collaboration/SESSION_SECURITY_FIXED`
+- `apps/web/lib/server-session.ts`
+- `apps/web/lib/server-session.test.ts`
+- `apps/web/app/api/session/login/route.ts`
+- `apps/web/next.config.ts`
+- `apps/api/pecasauto_api/vehicle_service.py`
+- `apps/api/tests/test_api.py`
+- `reports/VEHICLE_LOOKUP_IMPLEMENTATION_STATUS.md`
+
+Commands
+```bash
+cd ~/Downloads/portugal-auto-validation-lab
+uv run pytest -q
+uv run python -m unittest discover -s tests -v
+
+cd apps/web
+SESSION_SECRET="$(openssl rand -base64 48)" pnpm test
+env -u SESSION_SECRET pnpm build       # expected failure
+SESSION_SECRET="$(openssl rand -base64 48)" pnpm build
+
+cd ../cms
+# Supply the local Strapi/PostgreSQL environment documented in README.md
+pnpm verify:content
+```
+
+The web server has been restarted and is running locally on port 3000. This handoff does not claim final demo approval.

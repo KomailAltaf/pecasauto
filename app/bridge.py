@@ -18,6 +18,7 @@ class CatalogueBridgeResult:
     candidates_count: int
     catalogue_vehicle_id: str | None = None
     licensed_fitment_match: bool = False
+    ktype_validated: bool = False
 
     @property
     def may_claim_compatible(self) -> bool:
@@ -25,6 +26,6 @@ class CatalogueBridgeResult:
             self.candidates_count == 1
             and self.catalogue_vehicle_id is not None
             and self.licensed_fitment_match
-            and self.method in {MatchMethod.PROVIDER_ID, MatchMethod.VIN, MatchMethod.ENGINE_CODE, MatchMethod.USER_CONFIRMED}
+            and self.ktype_validated
+            and self.method in {MatchMethod.PROVIDER_ID, MatchMethod.VIN, MatchMethod.USER_CONFIRMED}
         )
-

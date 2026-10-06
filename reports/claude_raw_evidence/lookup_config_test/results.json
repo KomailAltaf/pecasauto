@@ -1,0 +1,454 @@
+{
+ "registration:AB-12-CD": {
+  "outcome": "MORE_INFORMATION_REQUIRED",
+  "source_type": "WAITING_FOR_ACCESS",
+  "input": {
+   "method": "registration",
+   "value": "AB-12-CD"
+  },
+  "candidates": [
+   {
+    "id": "autoways-VFXXXXXXXXXXXXAB1",
+    "make": "FAKEMAKE",
+    "model": "MODEL-AB",
+    "generation": "Y",
+    "year_range": "2021",
+    "engine": "1.6 TEST",
+    "engine_code": "EB1",
+    "power_kw": 85.0,
+    "fuel": "GAZOLE",
+    "variant": "1.6 TEST",
+    "provider": "autoways",
+    "external_vehicle_id": null,
+    "ktype": "900165",
+    "ktype_status": "UNVERIFIED",
+    "precision": "EXACT_VARIANT",
+    "verification_state": "NEEDS_SECOND_SOURCE_OR_USER_CONFIRMATION"
+   }
+  ],
+  "trace": [
+   {
+    "provider": "autoways",
+    "status": "RESOLVED",
+    "detail": "1 candidato(s)",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": 24.73520813509822
+   }
+  ],
+  "raw_provider_result": {
+   "status": "RESOLVED",
+   "provider": "autoways",
+   "candidate_count": 1,
+   "raw_payload_reference": null,
+   "display_note": "Raw payload is not persisted by the customer application unless provider terms allow it."
+  },
+  "message": "Resultado de fornecedor não verificado. Confirme a versão ou obtenha uma segunda fonte.",
+  "may_claim_compatibility": false
+ },
+ "registration:XY-98-ZW": {
+  "outcome": "MORE_INFORMATION_REQUIRED",
+  "source_type": "WAITING_FOR_ACCESS",
+  "input": {
+   "method": "registration",
+   "value": "XY-98-ZW"
+  },
+  "candidates": [
+   {
+    "id": "autoways-VFXXXXXXXXXXXXXY9",
+    "make": "FAKEMAKE",
+    "model": "MODEL-XY",
+    "generation": "Y",
+    "year_range": "2021",
+    "engine": "1.6 TEST",
+    "engine_code": "EB1",
+    "power_kw": 85.0,
+    "fuel": "GAZOLE",
+    "variant": "1.6 TEST",
+    "provider": "autoways",
+    "external_vehicle_id": null,
+    "ktype": "900167",
+    "ktype_status": "UNVERIFIED",
+    "precision": "EXACT_VARIANT",
+    "verification_state": "NEEDS_SECOND_SOURCE_OR_USER_CONFIRMATION"
+   }
+  ],
+  "trace": [
+   {
+    "provider": "autoways",
+    "status": "RESOLVED",
+    "detail": "1 candidato(s)",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": 5.116167012602091
+   }
+  ],
+  "raw_provider_result": {
+   "status": "RESOLVED",
+   "provider": "autoways",
+   "candidate_count": 1,
+   "raw_payload_reference": null,
+   "display_note": "Raw payload is not persisted by the customer application unless provider terms allow it."
+  },
+  "message": "Resultado de fornecedor não verificado. Confirme a versão ou obtenha uma segunda fonte.",
+  "may_claim_compatibility": false
+ },
+ "registration:AA-00-AA": {
+  "outcome": "CONFLICT",
+  "source_type": "WAITING_FOR_ACCESS",
+  "input": {
+   "method": "registration",
+   "value": "AA-00-AA"
+  },
+  "candidates": [
+   {
+    "id": "autoways-VFXXXXXXXXXXXX001",
+    "make": "FAKEMAKE",
+    "model": "MODEL-A",
+    "generation": "X",
+    "year_range": "2021",
+    "engine": "1.5 TEST 100",
+    "engine_code": "EA1",
+    "power_kw": 74.0,
+    "fuel": "GAZOLE",
+    "variant": "1.5 TEST 100",
+    "provider": "autoways",
+    "external_vehicle_id": null,
+    "ktype": "900001",
+    "ktype_status": "UNVERIFIED",
+    "precision": "EXACT_VARIANT",
+    "verification_state": "NEEDS_SECOND_SOURCE_OR_USER_CONFIRMATION"
+   },
+   {
+    "id": "autoways-VFXXXXXXXXXXXX001",
+    "make": "FAKEMAKE",
+    "model": "MODEL-A",
+    "generation": "X",
+    "year_range": "2021",
+    "engine": "1.5 TEST 130",
+    "engine_code": "EA2",
+    "power_kw": 96.0,
+    "fuel": "GAZOLE",
+    "variant": "1.5 TEST 130",
+    "provider": "autoways",
+    "external_vehicle_id": null,
+    "ktype": "900002",
+    "ktype_status": "UNVERIFIED",
+    "precision": "EXACT_VARIANT",
+    "verification_state": "NEEDS_SECOND_SOURCE_OR_USER_CONFIRMATION"
+   }
+  ],
+  "trace": [
+   {
+    "provider": "autoways",
+    "status": "AMBIGUOUS",
+    "detail": "2 candidato(s)",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": 4.865124821662903
+   },
+   {
+    "provider": "matriculapt",
+    "status": "NOT_CONFIGURED",
+    "detail": "NOT_CONFIGURED:MATRICULAPT_USERNAME or endpoint is missing",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": null
+   },
+   {
+    "provider": "tips4y",
+    "status": "NOT_CONFIGURED",
+    "detail": "NOT_CONFIGURED:missing TIPS4Y_API_KEY, TIPS4Y_BASE_URL",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": null
+   },
+   {
+    "provider": "telepecas",
+    "status": "NOT_CONFIGURED",
+    "detail": "NOT_CONFIGURED:TELEPECAS_ACCESS_TOKEN or OAuth client credentials are missing",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": null
+   },
+   {
+    "provider": "tecalliance",
+    "status": "NOT_CONFIGURED",
+    "detail": "NOT_CONFIGURED:missing TECALLIANCE_API_KEY, TECALLIANCE_BASE_URL",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": null
+   },
+   {
+    "provider": "manual_selection",
+    "status": "AMBIGUOUS",
+    "detail": "USER_INPUT_REQUIRED",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": null
+   }
+  ],
+  "raw_provider_result": {
+   "status": "AMBIGUOUS",
+   "provider": "autoways",
+   "candidate_count": 2,
+   "raw_payload_reference": null,
+   "display_note": "Raw payload is not persisted by the customer application unless provider terms allow it."
+  },
+  "message": "As fontes discordam sobre a viatura. É necessária confirmação do utilizador ou uma segunda fonte.",
+  "may_claim_compatibility": false
+ },
+ "registration:ZZ-99-ZZ": {
+  "outcome": "WAITING_FOR_PROVIDER",
+  "source_type": "WAITING_FOR_ACCESS",
+  "input": {
+   "method": "registration",
+   "value": "ZZ-99-ZZ"
+  },
+  "candidates": [],
+  "trace": [
+   {
+    "provider": "autoways",
+    "status": "NO_RESULT",
+    "detail": "0 candidato(s)",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": 4.441624972969294
+   },
+   {
+    "provider": "matriculapt",
+    "status": "NOT_CONFIGURED",
+    "detail": "NOT_CONFIGURED:MATRICULAPT_USERNAME or endpoint is missing",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": null
+   },
+   {
+    "provider": "tips4y",
+    "status": "NOT_CONFIGURED",
+    "detail": "NOT_CONFIGURED:missing TIPS4Y_API_KEY, TIPS4Y_BASE_URL",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": null
+   },
+   {
+    "provider": "telepecas",
+    "status": "NOT_CONFIGURED",
+    "detail": "NOT_CONFIGURED:TELEPECAS_ACCESS_TOKEN or OAuth client credentials are missing",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": null
+   },
+   {
+    "provider": "tecalliance",
+    "status": "NOT_CONFIGURED",
+    "detail": "NOT_CONFIGURED:missing TECALLIANCE_API_KEY, TECALLIANCE_BASE_URL",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": null
+   },
+   {
+    "provider": "manual_selection",
+    "status": "AMBIGUOUS",
+    "detail": "USER_INPUT_REQUIRED",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": null
+   }
+  ],
+  "raw_provider_result": null,
+  "message": "WAITING_FOR_PROVIDER — a camada de identificação está pronta, mas nenhuma fonte live de matrícula está ligada. Use a seleção manual.",
+  "may_claim_compatibility": false
+ },
+ "registration:12-AB-34": {
+  "outcome": "MORE_INFORMATION_REQUIRED",
+  "source_type": "WAITING_FOR_ACCESS",
+  "input": {
+   "method": "registration",
+   "value": "12-AB-34"
+  },
+  "candidates": [
+   {
+    "id": "autoways-VFXXXXXXXXXXXX12A",
+    "make": "FAKEMAKE",
+    "model": "MODEL-12",
+    "generation": "Y",
+    "year_range": "2021",
+    "engine": "1.6 TEST",
+    "engine_code": "EB1",
+    "power_kw": 85.0,
+    "fuel": "GAZOLE",
+    "variant": "1.6 TEST",
+    "provider": "autoways",
+    "external_vehicle_id": null,
+    "ktype": "900133",
+    "ktype_status": "UNVERIFIED",
+    "precision": "EXACT_VARIANT",
+    "verification_state": "NEEDS_SECOND_SOURCE_OR_USER_CONFIRMATION"
+   }
+  ],
+  "trace": [
+   {
+    "provider": "autoways",
+    "status": "RESOLVED",
+    "detail": "1 candidato(s)",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": 4.340166226029396
+   }
+  ],
+  "raw_provider_result": {
+   "status": "RESOLVED",
+   "provider": "autoways",
+   "candidate_count": 1,
+   "raw_payload_reference": null,
+   "display_note": "Raw payload is not persisted by the customer application unless provider terms allow it."
+  },
+  "message": "Resultado de fornecedor não verificado. Confirme a versão ou obtenha uma segunda fonte.",
+  "may_claim_compatibility": false
+ },
+ "vin:WVWZZZ1KZ6W000001": {
+  "outcome": "CONFLICT",
+  "source_type": "WAITING_FOR_ACCESS",
+  "input": {
+   "method": "vin",
+   "value": "WVWZZZ1KZ6W000001"
+  },
+  "candidates": [
+   {
+    "id": "autoways-WVWZZZ1KZ6W000001",
+    "make": "OTHERMAKE",
+    "model": "MODEL-V",
+    "generation": "Z",
+    "year_range": "2021",
+    "engine": "2.0 TEST",
+    "engine_code": "EC1",
+    "power_kw": 110.0,
+    "fuel": "GAZOLE",
+    "variant": "2.0 TEST",
+    "provider": "autoways",
+    "external_vehicle_id": null,
+    "ktype": "910074",
+    "ktype_status": "UNVERIFIED",
+    "precision": "EXACT_VARIANT",
+    "verification_state": "NEEDS_SECOND_SOURCE_OR_USER_CONFIRMATION"
+   }
+  ],
+  "trace": [
+   {
+    "provider": "vpic_public",
+    "status": "PARTIAL",
+    "detail": "1,4,14,400",
+    "source_type": "REAL_TESTED",
+    "latency_ms": 901.7963749356568
+   },
+   {
+    "provider": "autoways",
+    "status": "RESOLVED",
+    "detail": "1 candidato(s)",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": 14.259666670113802
+   }
+  ],
+  "raw_provider_result": {
+   "status": "RESOLVED",
+   "provider": "autoways",
+   "candidate_count": 1,
+   "raw_payload_reference": null,
+   "display_note": "Raw payload is not persisted by the customer application unless provider terms allow it."
+  },
+  "message": "As fontes discordam sobre a viatura. É necessária confirmação do utilizador ou uma segunda fonte.",
+  "may_claim_compatibility": false
+ },
+ "vin:VF7ABCDE123456789": {
+  "outcome": "MORE_INFORMATION_REQUIRED",
+  "source_type": "WAITING_FOR_ACCESS",
+  "input": {
+   "method": "vin",
+   "value": "VF7ABCDE123456789"
+  },
+  "candidates": [
+   {
+    "id": "autoways-VF7ABCDE123456789",
+    "make": "OTHERMAKE",
+    "model": "MODEL-V",
+    "generation": "Z",
+    "year_range": "2021",
+    "engine": "2.0 TEST",
+    "engine_code": "EC1",
+    "power_kw": 110.0,
+    "fuel": "GAZOLE",
+    "variant": "2.0 TEST",
+    "provider": "autoways",
+    "external_vehicle_id": null,
+    "ktype": "910023",
+    "ktype_status": "UNVERIFIED",
+    "precision": "EXACT_VARIANT",
+    "verification_state": "NEEDS_SECOND_SOURCE_OR_USER_CONFIRMATION"
+   }
+  ],
+  "trace": [
+   {
+    "provider": "vpic_public",
+    "status": "NO_RESULT",
+    "detail": "1,7",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": 279.9672079272568
+   },
+   {
+    "provider": "autoways",
+    "status": "RESOLVED",
+    "detail": "1 candidato(s)",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": 118.11529193073511
+   }
+  ],
+  "raw_provider_result": {
+   "status": "RESOLVED",
+   "provider": "autoways",
+   "candidate_count": 1,
+   "raw_payload_reference": null,
+   "display_note": "Raw payload is not persisted by the customer application unless provider terms allow it."
+  },
+  "message": "Resultado de fornecedor não verificado. Confirme a versão ou obtenha uma segunda fonte.",
+  "may_claim_compatibility": false
+ },
+ "vin:1HGCM82633A004352": {
+  "outcome": "CONFLICT",
+  "source_type": "WAITING_FOR_ACCESS",
+  "input": {
+   "method": "vin",
+   "value": "1HGCM82633A004352"
+  },
+  "candidates": [
+   {
+    "id": "autoways-1HGCM82633A004352",
+    "make": "OTHERMAKE",
+    "model": "MODEL-V",
+    "generation": "Z",
+    "year_range": "2021",
+    "engine": "2.0 TEST",
+    "engine_code": "EC1",
+    "power_kw": 110.0,
+    "fuel": "GAZOLE",
+    "variant": "2.0 TEST",
+    "provider": "autoways",
+    "external_vehicle_id": null,
+    "ktype": "910065",
+    "ktype_status": "UNVERIFIED",
+    "precision": "EXACT_VARIANT",
+    "verification_state": "NEEDS_SECOND_SOURCE_OR_USER_CONFIRMATION"
+   }
+  ],
+  "trace": [
+   {
+    "provider": "vpic_public",
+    "status": "PARTIAL",
+    "detail": "0",
+    "source_type": "REAL_TESTED",
+    "latency_ms": 650.8535002358258
+   },
+   {
+    "provider": "autoways",
+    "status": "RESOLVED",
+    "detail": "1 candidato(s)",
+    "source_type": "NOT_CONFIGURED",
+    "latency_ms": 11.246833950281143
+   }
+  ],
+  "raw_provider_result": {
+   "status": "RESOLVED",
+   "provider": "autoways",
+   "candidate_count": 1,
+   "raw_payload_reference": null,
+   "display_note": "Raw payload is not persisted by the customer application unless provider terms allow it."
+  },
+  "message": "As fontes discordam sobre a viatura. É necessária confirmação do utilizador ou uma segunda fonte.",
+  "may_claim_compatibility": false
+ }
+}

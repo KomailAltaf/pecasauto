@@ -1,0 +1,8 @@
+"use client";
+import Link from "next/link";
+import { Activity, Boxes, CarFront, PlugZap } from "lucide-react";
+import { useEffect, useState } from "react";
+import { AdminNav } from "@/components/AdminNav";
+import { api } from "@/lib/api";
+
+export default function AdminPage(){const [data,setData]=useState<any>(null);useEffect(()=>{api.dashboard().then(setData).catch(()=>{})},[]);return <div className="admin-shell"><AdminNav/><section className="admin-content"><span className="tag demo">DEMO BACK OFFICE</span><h1 className="section-title" style={{fontSize:46}}>Operational overview</h1><p className="section-copy">A interface demonstra os limites entre catálogo, veículos, encomendas e integrações.</p><div className="metric-grid" style={{marginTop:30}}><div className="metric"><Boxes/><span>Produtos</span><strong>{data?.products??"—"}</strong></div><div className="metric"><Activity/><span>Encomendas</span><strong>{data?.orders??"—"}</strong></div><div className="metric"><CarFront/><span>Veículos guardados</span><strong>{data?.vehicles??"—"}</strong></div><div className="metric"><PlugZap/><span>Modo</span><strong style={{fontSize:20}}>DEMO</strong></div></div><div className="form-card" style={{marginTop:24}}><h2>Integration readiness</h2><p className="section-copy">Abra a matriz de fornecedores para rever que sistemas estão testados, configurados ou bloqueados por credenciais.</p><Link href="/admin/providers" className="btn">Ver fornecedores</Link></div><div className="form-card"><h2>Área preparada</h2><div className="provider-cluster"><div>Products</div><div>Orders</div><div>Vehicles</div><div>Inventory</div><div>Imports</div></div></div></section></div>}

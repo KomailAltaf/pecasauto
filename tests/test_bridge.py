@@ -12,8 +12,12 @@ class BridgeTests(unittest.TestCase):
         self.assertFalse(result.may_claim_compatible)
 
     def test_provider_id_still_requires_single_candidate_and_licensed_fitment(self):
-        self.assertTrue(CatalogueBridgeResult(MatchMethod.PROVIDER_ID, 1, "ktype-1", True).may_claim_compatible)
-        self.assertFalse(CatalogueBridgeResult(MatchMethod.PROVIDER_ID, 2, "ktype-1", True).may_claim_compatible)
+        self.assertTrue(CatalogueBridgeResult(MatchMethod.PROVIDER_ID, 1, "ktype-1", True, True).may_claim_compatible)
+        self.assertFalse(CatalogueBridgeResult(MatchMethod.PROVIDER_ID, 2, "ktype-1", True, True).may_claim_compatible)
+
+    def test_engine_code_or_unvalidated_ktype_never_claims_compatible(self):
+        self.assertFalse(CatalogueBridgeResult(MatchMethod.ENGINE_CODE, 1, "ktype-1", True, True).may_claim_compatible)
+        self.assertFalse(CatalogueBridgeResult(MatchMethod.PROVIDER_ID, 1, "ktype-1", True, False).may_claim_compatible)
 
     def test_customer_garage_requires_confirmation(self):
         garage = CustomerGarage()

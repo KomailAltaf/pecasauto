@@ -1,0 +1,133 @@
+# Ready for independent Claude re-review
+
+> Superseded/addended by `collaboration/VEHICLE_LOOKUP_READY_FOR_PROVIDER_KEY` after the round-2 B1–B4 fixes. Re-review both markers.
+
+Date: 2026-10-06
+
+This marker requests an independent re-review. It does **not** declare the PeçasAuto demo approved or ready.
+
+## Review target
+
+Re-review every P0/P1 item from `reports/PEÇASAUTO_DEMO_REVIEW.md`, then verify the Strapi/FastAPI ownership boundary.
+
+## Main changes
+
+- Removed the fake Auto Ways candidate, invented vehicle ID and customer-facing K-Type.
+- A normal plate search without a configured provider returns `WAITING FOR PLATE PROVIDER` with zero candidates.
+- Multiple-candidate behavior is now a separate neutral `DEMO CANNED RESULT — no external call` endpoint; candidates are ENGINE level at most and carry no external ID/K-Type.
+- vPIC is the only tested VIN source shown in the demo trace and remains BASIC.
+- Provider matrix separates tested evidence, documented capability, waiting/access state, configuration state and research-only material.
+- Removed static positive/negative fitment claims. All demo products require compatibility confirmation until a trusted FitmentProvider evaluates the selected vehicle/product pair.
+- Replaced misleading real-looking references with explicit synthetic `SAMPLE-*` values.
+- Orders accept product ID + quantity only; FastAPI calculates prices and totals from server catalogue data.
+- Removed client-specific conflict logic. Normalization/conflict checks are generic; the canned conflict is isolated demo data.
+- Added HTTP Basic prototype role boundaries for customer/garage and admin/operations routes; garage is user scoped and deduplicated.
+- Fixed saved vehicle year parsing.
+- `DEMO_MODE` defaults to false and requires explicit opt-in.
+- Removed the client's plate from the homepage and used `AB-12-CD` as a neutral placeholder.
+- Marked delivery timing `ESTIMATIVA DEMO`; empty cart has zero shipping and total.
+- Split VIN and plate traces. VIN includes vPIC; plate trace contains only plate-capable candidates plus manual fallback.
+- Unfinished admin areas state `NOT BUILT / PLACEHOLDER`.
+- Added Strapi 5 + PostgreSQL with editorial-only schemas and a public boundary API.
+- Next.js merges Strapi editorial copy with FastAPI operational data; Strapi never owns price, stock, fitment, cart/order rules or integrations.
+- Added a content-flow verifier covering draft isolation, publish/refresh, page builder, product editorial and operational-field exclusion.
+- Rewrote `reports/DAVID_DEMO_SCRIPT.md` to demonstrate honest lookup behavior and CMS ownership.
+
+## Automated verification performed
+
+### Python / API / provider / safety tests
+
+```bash
+cd ~/Downloads/portugal-auto-validation-lab
+.venv/bin/python -m pytest -q
+```
+
+Observed after the provider-readiness/security pass: `76 passed` (one Starlette deprecation warning only).
+
+### Frontend tests and production build
+
+```bash
+cd ~/Downloads/portugal-auto-validation-lab/apps/web
+pnpm test
+pnpm build
+```
+
+Observed: `3 passed`; Next.js production build successful with 12 routes and no build warning after the CSS compatibility correction.
+
+The development server was restarted after the production build so its `.next` CSS assets are consistent. `README.md` now warns not to run `next build` concurrently with `next dev` in the same directory.
+
+### CMS build
+
+```bash
+cd ~/Downloads/portugal-auto-validation-lab/apps/cms
+pnpm build
+```
+
+Observed: Strapi TypeScript and admin production build successful.
+
+### CMS draft/publish/page-builder/product boundary
+
+Start PostgreSQL first, then use the local-only environment documented in `README.md`:
+
+```bash
+cd ~/Downloads/portugal-auto-validation-lab
+docker compose up -d postgres
+
+cd apps/cms
+APP_KEYS='local-key-one,local-key-two,local-key-three,local-key-four' \
+API_TOKEN_SALT='local-api-token-salt' \
+ADMIN_JWT_SECRET='local-admin-jwt-secret' \
+TRANSFER_TOKEN_SALT='local-transfer-token-salt' \
+JWT_SECRET='local-user-jwt-secret' \
+DATABASE_HOST=127.0.0.1 DATABASE_NAME=pecasauto_cms \
+DATABASE_USERNAME=pecasauto DATABASE_PASSWORD=pecasauto_local \
+pnpm verify:content
+```
+
+Observed PASS:
+
+- PostgreSQL connection
+- homepage draft isolated from published content
+- publish refreshes public content and verifier restores it
+- hero page-builder component exists
+- product editorial draft/publish/restore
+- `price`, `stock`, `fitment` and `orders` excluded from CMS operational ownership
+
+## Local run commands
+
+Use `README.md` for the complete commands. Current local demo addresses:
+
+- storefront: `http://localhost:3000`
+- API: `http://localhost:8000`
+- CMS admin: `http://localhost:1337/admin`
+- local CMS editor: `admin@pecasauto.local` / `LocalDemo!2026-Rotated` (local only)
+
+FastAPI demo credentials documented in README:
+
+- customer: `demo-customer` / `customer-secret`
+- admin: `demo-admin` / `admin-secret`
+
+## Manual/API observations to reproduce
+
+1. `POST /api/vehicles/search` with plate `AB-12-CD` returns `PROVIDER_UNAVAILABLE`, an explicit waiting message and zero candidates.
+2. The client VIN returns a vPIC `REAL_TESTED` BASIC candidate with model/engine/K-Type absent and manual completion required.
+3. `GET /api/vehicles/demo/conflict` is available only with explicit demo mode. Its message states no external call; candidates are ENGINE, demo, have null external ID and null K-Type.
+4. Every API product has synthetic references, `CONFIRM_COMPATIBILITY` and demo-labelled delivery.
+5. `/api/providers` returns 401 without admin credentials. Auto Ways has zero tested inputs; vPIC has VIN tested.
+6. Order payloads cannot submit unit prices. Server catalogue price determines totals.
+7. Public CMS endpoints return `ownership: EDITORIAL_ONLY` and explicitly exclude operational fields.
+8. Storefront routes `/`, `/catalogo`, `/carrinho`, `/checkout`, `/garagem`, `/admin/providers` and `/architecture` return HTTP 200 locally.
+
+## Re-review questions
+
+- Does any customer-visible screen still attribute a result to Auto Ways without raw evidence?
+- Can an ordinary plate/VIN request ever become canned data without the separate demo action?
+- Can any demo product display a positive or authoritative negative compatibility claim?
+- Are every provider's evidence state and tested input unambiguous?
+- Can client-submitted pricing influence an order total?
+- Do protected browser calls use the signed HTTP-only session/BFF, with no API credentials in public bundles, and are garage records user scoped?
+- Can Strapi edit any operational field or does it remain editorial-only?
+- Does the published-content verifier prove draft isolation and publish/refresh behavior?
+- Are any unfinished admin modules presented as built?
+
+Please write the re-review verdict separately. No final approval is asserted here.

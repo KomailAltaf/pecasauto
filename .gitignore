@@ -2,4 +2,14 @@ __pycache__/
 *.py[cod]
 .DS_Store
 .venv/
-
+node_modules/
+.next/
+apps/api/data/*.db
+apps/web/.env.local
+apps/cms/.cache/
+apps/cms/.tmp/
+apps/cms/build/
+apps/cms/dist/
+apps/cms/public/uploads/*
+!apps/cms/public/uploads/.gitkeep
+.env

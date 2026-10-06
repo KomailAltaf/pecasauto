@@ -449,3 +449,13 @@ See `reports/autofrance_ktype_investigation.md` Round 6 update and `reports/ktyp
 2. **Do reports treat client expectation or K-Type as independent truth?** Not as truth, good. But they are now **stale**: K-Type 130708 *has* an independent identity cross-check (Autodoc + Schaeffler), and two independent lines point to 3008. Codex's statement "Autofrance catalogue page resolves K-Type" is NOT independent (same provider). Update `client_ground_truth_research.md` and FINAL to: model = `LIKELY 3008, DISPUTED vs client 5008`, K-Type 130708 = `IDENTITY CROSS-CHECKED`, VIN→K-Type = `PARTIAL`.
 3. **Commercial/cache/storage conservatism?** Yes: UNKNOWN/default NO is right. Add Autofrance as `RESEARCH_ONLY` (storefront backend; copyright notice, no API licence).
 4. **Is the stop boundary honest?** **No.** "Accessible no-account routes exhausted" was false: in this round I found, without any account, two independent catalogue confirmations and the decoder's real discriminator (plant letter, no existence check). Also still no-account/human-€0 actions available: manual plate lookups on several Portuguese retailers (see HUMAN_ACTIONS_REQUIRED, 'Manual plate lookups'). Replace with: "remaining routes need accounts, contracts or human screenshots".
+
+---
+
+# Commercial validation + red team (2026-10-05, final round for Claude's phase)
+
+Full content in `reports/CLAUDE_BUILD_PLAN_REDTEAM.md`, `reports/PROVIDER_COMMERCIAL_COMPARISON.md`, `reports/provider_autoways_final.md`, `reports/provider_tips4y_final.md`, `reports/tecalliance_direct_buying_strategy.md`.
+- Build answers: frontend YES; backend YES; vehicle abstraction YES (with changes); catalogue abstraction YES (interface only); Primavera NO for real integration / YES for interface; checkout YES; exact fitment **NO**; PT plate production integration **NO**.
+- Code issues: fitment ignores bridge; ENGINE_CODE auto-claim unsafe (3008/5008 share YHZ); `licensed_catalogue` self-declared; NOT_COMPATIBLE from unlicensed sources; provider K-Types need `ktype_validated`; plate-vs-VIN agreement gate missing.
+- client_001: **CONFLICT — NEEDS PLATE/REGISTRATION/PARTSLINK24 CONFIRMATION** (leans 3008; client's 5008 not overwritten).
+- **Claude does NOT sign final completion.** Missing: any PT plate result, licensed K-Type validation, partslink24/registration evidence, commercial quotes (TecAlliance direct, Fahad/Luis, Tips4y, Autoways price).

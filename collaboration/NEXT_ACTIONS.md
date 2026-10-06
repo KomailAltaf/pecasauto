@@ -241,3 +241,78 @@ Codex raw evidence for vPIC matches mine byte-for-byte (detailed file). 29 tests
 ### P0-R20 Autoways adapter schema (Claude round 6)
 - **Action:** the vendor's public OpenAPI spec (stored in `reports/claude_raw_evidence/autoways/`) defines the response fields. Write the adapter/mapping against the **spec's example shape** with unit tests on that example only (label `SPEC_EXAMPLE`, not accuracy evidence); keep status NOT_TESTED until a real token response exists. Map: `AWN_k_type`→`provider_vehicle_ids["autoways_ktype"]`, `AWN_code_moteur`→engine_code, `AWN_puissance_KW`→power_kw, `AWN_date_mise_en_circulation`→first_registration (PT plate route only), `AWN_VIN`→vin (from plate route = provenance PLATE_PROVIDER).
 - **Done when:** adapter + tests pass; no network call without a token.
+
+---
+
+## Claude commercial + red-team round (2026-10-05)
+
+Source: `reports/CLAUDE_BUILD_PLAN_REDTEAM.md`. `PHASE1_DEVELOPMENT_PLAN.md` and `JOINT_VALIDATION_DRAFT.md` did not exist at review time.
+
+### P0-R21 Fitment/bridge coupling
+- **Action:** `evaluate_fitment` must take the `CatalogueBridgeResult` and return COMPATIBLE only if `may_claim_compatible`; remove `ENGINE_CODE` from the auto-claim methods (YHZ/DV5RC is shared by 3008 and 5008); add `ktype_validated` so provider K-Types (Autoways derived by matching, Autofrance unlicensed) cannot claim COMPATIBLE until cross-checked/licensed.
+- **Evidence needed:** tests: client_001 raw payload → never COMPATIBLE; ENGINE_CODE bridge with 2 sibling models → CONFIRM.
+
+### P0-R22 NOT_COMPATIBLE only from licensed sources
+- **Action:** `{NO_MATCH}` from an unlicensed/low-precision source → UNKNOWN/CONFIRM, not NOT_COMPATIBLE. Tie `licensed_catalogue` to `ProviderPolicy.terms_verified`.
+
+### P1-R23 Vehicle states
+- **Action:** add `DISPUTED/MODEL_CONFLICT`, `NO_EXISTENCE_CHECK`, plate-vs-VIN agreement gate; per-category minimum-precision table.
+
+### P1-R24 Cascade steps
+- **Action:** add Autoways, Tips4y, Openapi, Vincario as AccessRequired steps; plate result with VIN must be compared to the VIN route.
+
+### P1-R25 Garage store
+- **Action:** store only user-confirmed vehicles with the candidate set shown; no provider K-Types without rights.
+
+### Commercial documents delivered
+`reports/provider_autoways_final.md`, `provider_tips4y_final.md`, `tecalliance_direct_buying_strategy.md`, `PROVIDER_COMMERCIAL_COMPARISON.md`, `provider_contact_drafts.md` (not sent), `DAVID_TECHNICAL_BRIEF.md`, `FAHAD_DATA_BRIEF.md`. Codex: reconcile `docs/provider_landscape.md` and the matrix with these (Autoways PT documented in vendor spec; Tips4y pack €30+VAT/300; TelePeças price list).
+
+---
+
+## Claude demo review (2026-10-05): verdict NOT READY. See `reports/PEÇASAUTO_DEMO_REVIEW.md`
+
+P0 for Codex before David sees it:
+1. Remove the fabricated provenance: candidate `provider="Auto Ways validation result"` + `external_vehicle_id="4607"` (`apps/api/pecasauto_api/vehicle_service.py:54`); Autoways was never called; K-Type came from Autofrance (research-only, unlicensed). It is also persisted into the garage/DB.
+2. Plate input must not return the canned client result as if a provider answered; label as DEMO canned example or NOT_CONFIGURED.
+3. Cap displayed precision at ENGINE (not EXACT_VARIANT) for the 3008 candidate.
+4. Replace static product `fitment_state` (`PROBABLY_COMPATIBLE`, fake `NOT_COMPATIBLE`) with a derived state via `app/fitment.py`; with no licensed source everything is CONFIRM/UNVERIFIED; remove "provavelmente compatível".
+5. Provider status page: fix "VIN testado" note for Auto Ways; split "documented capability" from "tested"; `/api/providers` must not claim `source_type: REAL`; add Autofrance as RESEARCH ONLY.
+6. Seed data: discs use OE refs identified as brake pipes in your own cross-check; use correct refs or obviously synthetic placeholders.
+P1: server-side order pricing (price tampering accepted at €0.01), generic conflict rule (remove CLIENT_VIN hard-code; EXACT requires ENGINE+), `_first_year` bug, auth on admin/garage + dedupe, DEMO_MODE default false, neutral homepage placeholder, label delivery estimates as demo, empty-cart total, trace shows vPIC and hides irrelevant steps, mark admin placeholders NOT BUILT.
+
+---
+
+## Claude demo re-review round 2 (2026-10-06): NOT READY. See `reports/PEÇASAUTO_DEMO_REVIEW.md`
+
+All Round 1 P0/P1 items verified fixed except garage dedupe. Remaining blockers for Codex:
+1. **B1 (security):** `/api/pecasauto/products/:externalId` leaks the CMS admin user (email + bcrypt hash + token fields) via `populate:"*"` → `createdBy/updatedBy`. Use an explicit populate allowlist, strip those keys, add a regression test, rotate the local editor password.
+2. **B2:** architecture page + `DAVID_DEMO_SCRIPT.md` claim pages/navigation/footer/FAQ/SEO/banners/promotions are CMS-editable; only homepage hero and product editorial are rendered. A published `Page` returns 404; navigation hard-coded; SEO ignored. Wire them or label "MODELLED, NOT RENDERED".
+3. **B3:** `NEXT_PUBLIC_ADMIN_AUTH/CUSTOMER_AUTH` are inlined into the public browser bundle and `/admin` has no login. Move auth server-side or label "DEMO: no real auth" and drop the "role protected" claim.
+4. **B4:** `POST /api/garage` twice with the same vehicle creates two rows. Add dedupe/upsert.
+Housekeeping: Claude's test Strapi content was deleted; local demo orders from testing remain in SQLite.
+
+---
+
+## Claude round 3 re-review (2026-10-06): blockers + lookup architecture
+
+**Claude fixed (verified live):** B1 CMS leak (explicit populate + sanitize `createdBy/updatedBy/localizations`; `apps/cms/scripts/check-public-payload.cjs` regression check; Strapi rebuilt and restarted locally); B4 garage dedupe for vehicles without plate/VIN (`apps/api/pecasauto_api/main.py` + test; API restarted locally with DEMO_MODE=true and the README demo credentials). **Codex fixed:** B2 labels (architecture page, README, demo script), B3 server-side session/BFF (`app/api/platform`, `app/api/session`, `lib/server-session.ts`).
+
+### P0-S1 Session secret fails open
+`lib/server-session.ts` falls back to the public default `local-development-session-secret-change-me` (and the README placeholder `replace-this-local-session-secret` is equally guessable). Evidence: on the running web instance a cookie forged with the default secret passed `verifySession` (the request failed later with 503 only because `FASTAPI_ADMIN_AUTH` was not loaded in that process). Fix: throw at startup / reject sessions when `APP_SESSION_SECRET` is missing or equals a known default (at least in production); enforce expiry from `issuedAt` server-side (currently only the cookie `maxAge`); README should tell users to generate a random secret (`openssl rand -base64 32`).
+Also: the running Next dev process was started before the new env vars: demo logins return 401 until it is restarted with `DEMO_*_LOGIN`, `FASTAPI_*_AUTH`, `APP_SESSION_SECRET`.
+
+### P1-L1 Multiple variants from ONE provider are reported as CONFLICT
+`VehicleIdentificationService._disagreements` compares `engine_code` across all candidates, so a provider returning two variants (same plate, two engines) yields outcome `CONFLICT` / "As fontes discordam". Expected `MULTIPLE`. Compute disagreement across **providers** (compare per-attempt value sets; conflict only if two providers' sets are disjoint). Test: spec-shaped fake returning 2 records for one plate → `MULTIPLE`; vPIC vs provider with different make → `CONFLICT`.
+
+### P1-L2 Live-but-unvalidated provider results are labelled `WAITING_FOR_ACCESS` / `NOT_CONFIGURED`
+With a working configured provider the response `source_type` is `WAITING_FOR_ACCESS` and the trace shows `source_type: NOT_CONFIGURED` for a provider that answered (`RESOLVED`). Add a source type such as `LIVE_UNVALIDATED` (provider answered, accuracy not validated) distinct from `REAL_TESTED` (validated) and `WAITING_FOR_ACCESS` (no credential).
+
+### P1-L3 Unvalidated provider precision displayed as EXACT_VARIANT
+Spec-shaped provider results show precision `EXACT_VARIANT` (from engine code + provider ID). Until a provider is validated on the PT benchmark, display `claimed_precision` and cap shown precision at ENGINE (consistent with the trust-cap rule).
+
+Evidence for P1-L1..L3: `reports/claude_raw_evidence/lookup_config_test/results.json` (spec-shaped fake server on :9911, second API on :8010; both stopped).
+
+---
+
+## Claude final approval (2026-10-06): READY TO SHOW DAVID (marker created)
+Remaining non-blocking item for Codex before any real provider credential is connected: replace `source_type: REAL_TESTED` for live-but-unvalidated provider responses with a distinct value (e.g. `LIVE_UNVALIDATED`); reserve `REAL_TESTED` for providers validated on the Portuguese benchmark. Update `schemas.py`, `vehicle_service.py` (lines ~108, ~167), the frontend chip, and add a test.

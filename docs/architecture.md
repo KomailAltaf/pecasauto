@@ -3,9 +3,11 @@
 ## Boundaries
 
 1. `VehicleIdentityProvider`: VIN or registration to candidate vehicles.
-2. `CatalogueProvider`: product/reference search.
-3. `FitmentProvider`: vehicle-product evidence.
-4. `InventoryProvider` and `PricingProvider`: downstream commercial state, including Primavera.
+2. `CatalogueVehicleProvider`: canonical vehicle to catalogue vehicle ID/KType candidates.
+3. `CatalogueProvider`: product/reference search.
+4. `FitmentProvider`: vehicle-product evidence.
+5. `InventoryProvider` and `SupplierProvider`: internal/supplier availability.
+6. `ERPProvider`: stock, prices, customers, orders and invoices only.
 
 Customer code consumes only the canonical model and customer fitment state. It does not consume a provider response directly.
 
@@ -17,6 +19,8 @@ Customer code consumes only the canonical model and customer fitment state. It d
 - `COMPATIBLE` requires ENGINE+ identity, a licensed catalogue MATCH, no NO_MATCH, and no unresolved restriction.
 - EU VIN checksum mismatch is a warning, not a rejection.
 - Provider cache keys include provider name, provider version, route and input.
+- Missing credentials return `NOT_CONFIGURED`; no adapter fabricates a response.
+- Provider selection comes from environment configuration, not customer-facing logic.
 
 ## Current implementation status
 
@@ -24,4 +28,3 @@ Customer code consumes only the canonical model and customer fitment state. It d
 - Provider interfaces and mock swap: **PARTIALLY VERIFIED**.
 - External providers: **WAITING FOR CREDENTIALS** or **NOT VERIFIED**.
 - Test catalogue: **MOCK ONLY** and search-mechanics-only.
-

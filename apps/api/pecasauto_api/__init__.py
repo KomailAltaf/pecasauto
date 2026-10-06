@@ -1,0 +1,1 @@
+"""PeçasAuto FastAPI prototype."""

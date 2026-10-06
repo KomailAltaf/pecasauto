@@ -1,0 +1,36 @@
+SESSION SECURITY FIXED — 2026-10-06
+
+Scope
+- Removed the public/predictable session-secret fallback.
+- Next.js now refuses to load when SESSION_SECRET is absent, shorter than 32 bytes, or an obvious placeholder.
+- SESSION_SECRET remains server-only and is absent from the browser bundle.
+- Session payload schema is versioned (v=1), signed with HMAC-SHA256, and contains issued/expiry timestamps.
+- Server verification enforces signature, schema version, role, username, timestamps, exact eight-hour lifetime, and current expiry.
+- Missing, expired, wrong-secret, malformed, forged, and tampered sessions do not authenticate.
+- Cookie policy: HttpOnly, SameSite=Lax, eight-hour Max-Age, Secure in production, non-Secure only in local development.
+- `.env.example` contains only an empty SESSION_SECRET entry and a random-generation instruction.
+
+Tests run
+- `uv run pytest -q`: 79 passed.
+- `uv run python -m unittest discover -s tests -v`: 62 passed.
+- `SESSION_SECRET="$(openssl rand -base64 48)" pnpm test`: 11 passed, including 8 session-security tests.
+- `env -u SESSION_SECRET pnpm build`: correctly refused startup/config loading with exit code 1.
+- `SESSION_SECRET="$(openssl rand -base64 48)" pnpm build`: passed.
+- `pnpm verify:content` with the local PostgreSQL/Strapi environment: PASS, including public payload security regression.
+- Public static bundle scan: no SESSION_SECRET variable name, session secret, or FastAPI demo credentials.
+- Source/docs scan: no former default/fallback session secret remains.
+
+Live verification after restart
+- Next.js development server restarted on http://localhost:3000 with a newly generated local SESSION_SECRET.
+- Missing cookie against protected BFF endpoint: 401.
+- Valid admin login followed by protected request: 200.
+- Tampered cookie against protected BFF endpoint: 401.
+- Development Set-Cookie observed with Path=/, Max-Age=28800, HttpOnly and SameSite=Lax. Secure=true is covered by the production cookie-policy test.
+
+Lookup regressions fixed in the same pass
+- Several variants from one provider now produce MULTIPLE / “Encontrámos várias versões possíveis”.
+- CONFLICT is reserved for disjoint results from at least two providers.
+- A configured provider result with candidates is not labelled waiting for access.
+- Unvalidated provider evidence is capped at ENGINE precision rather than EXACT_VARIANT.
+
+This file records implementation and tests only. Final demo approval remains with Claude.

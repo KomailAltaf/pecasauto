@@ -1,0 +1,9 @@
+{
+  "collectionName": "components_shared_features",
+  "info": { "displayName": "Feature" },
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "body": { "type": "text" },
+    "icon": { "type": "enumeration", "enum": ["shield", "truck", "box", "support", "search"] }
+  }
+}

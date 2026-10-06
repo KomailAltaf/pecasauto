@@ -54,6 +54,8 @@ class VpicProvider(VehicleIdentityProvider):
     def __init__(self, base_url: str = "https://vpic.nhtsa.dot.gov/api", evidence_dir: Path | None = None):
         self.base_url = base_url.rstrip("/")
         self.evidence_dir = evidence_dir
+        self.last_raw: str | None = None
+        self.last_http_status: int | None = None
 
     def identify_by_vin(self, vin: str) -> IdentityResult:
         parsed = normalize_vin(vin)
@@ -64,6 +66,8 @@ class VpicProvider(VehicleIdentityProvider):
         started = time.perf_counter()
         with urllib.request.urlopen(url, timeout=20) as response:
             raw = response.read()
+            self.last_http_status = response.status
+        self.last_raw = raw.decode("utf-8", errors="replace")
         latency_ms = (time.perf_counter() - started) * 1000
         payload = json.loads(raw)
         row = (payload.get("Results") or [{}])[0]

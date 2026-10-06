@@ -1,0 +1,8 @@
+{
+  "VF3MCYHZUPS034433": {
+    "code": "CLIENT_MODEL_DISPUTED",
+    "message_pt": "Encontrámos informação contraditória para esta viatura. Confirme se é Peugeot 3008 ou Peugeot 5008.",
+    "candidate_models": ["Peugeot 3008 II", "Peugeot 5008 II"],
+    "status": "UNRESOLVED_UNTIL_PT_PLATE_OR_AUTHORITATIVE_MANUAL_EVIDENCE"
+  }
+}
